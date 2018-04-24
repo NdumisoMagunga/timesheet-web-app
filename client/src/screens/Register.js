@@ -26,6 +26,15 @@ constructor(props){
                                             <Input type="password" name="password" onChange={(e)=>{this.setState({password: e.target.value})}} style={{borderRadius:30}} id="passwordField" placeholder="your password here" max={8} required={true}/>
                                     </FormGroup>
                                     <FormGroup>
+                                            <Label for="passwordField">First name</Label>
+                                            <Input type="text" name="firstname" onChange={(e)=>{this.setState({firstname: e.target.value})}} style={{borderRadius:30}} id="textField" placeholder="First name" required={true}/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                            <Label for="passwordField">Last Name</Label>
+                                            <Input type="text" name="lastname" onChange={(e)=>{this.setState({lastname: e.target.value})}} style={{borderRadius:30}} id="textField" placeholder="Last name" required={true}/>
+                                    </FormGroup>
+
+                                    <FormGroup>
                                         <Link to= "/login"><Button  outline color="warning" size="sm" className="" style={{borderRadius:30}}>LOGIN</Button></Link>
                                         <Button type="submit" outline color="primary" size="sm" className="float-right" style={{marginLeft:7,borderRadius:30}}>REGISTER</Button>
                                     </FormGroup>
