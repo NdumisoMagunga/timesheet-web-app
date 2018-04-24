@@ -35,19 +35,13 @@ class Navigation extends Component {
         return (
             <nav className="pos-stc">
             <Navbar color="faded" light expand="md">
-              <NavbarBrand><img  style={{width:50,height:50}}  src={logo}  /> <i style={{fontWeight:300,fontStyle:"normal"}}>Itthynk Timesheets</i> </NavbarBrand>
+              <NavbarBrand><img  style={{width:120,height:35}} className="brand-image"  src={logo}  /> <i style={{fontWeight:300,fontStyle:"normal"}}></i> </NavbarBrand>
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                  <NavLink  href="http://localhost:2000/api/logout">logout</NavLink>
+                  <NavLink  href="/login">login</NavLink>
                   </NavItem>
-                  <NavItem>
-              
-                  <NavLink  href="http://localhost:2000/api/logout">logout</NavLink>
-              
-                  
-              </NavItem>
                  
               {(()=>{
                 if (this.props.auth){
