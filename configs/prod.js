@@ -4,4 +4,4 @@ module.exports={
     "port":process.env.PORT || 3000,
     "secret":'Pa$$w0rd',
     'cookieKey':'jhbsakjyfio463asydfhbfbiaw43oiufsbubfhhayyrbrr423246fsjd62hbjkjfs'
-}
+} 
