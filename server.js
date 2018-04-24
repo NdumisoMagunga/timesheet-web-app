@@ -35,7 +35,7 @@ app.use(cookieSession({
 //app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use(flash());
-app.use(cors({origin: ['http://localhost:3000'], credentials: true}));
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session())
 //adding routes

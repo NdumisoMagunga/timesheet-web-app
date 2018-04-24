@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const async = require('async');
-const Venue = require('../models/Venue')
-const User = require('../models/User')
+const Venue = require('../models/Venue');
+const User = require('../models/User');
 
 
 router.post('/add-venue', (req,res,next)=>{

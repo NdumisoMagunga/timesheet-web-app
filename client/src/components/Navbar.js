@@ -39,9 +39,13 @@ class Navigation extends Component {
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
-                  <NavItem>
-                  <NavLink  href="http://localhost:2000/api/logout">Login</NavLink>
+                <NavItem>
+                  <NavLink  href="/register">Register</NavLink>
                   </NavItem>
+                  <NavItem>
+                  <NavLink  href="/login">Login</NavLink>
+                  </NavItem>
+
                   
                  
               {(()=>{
