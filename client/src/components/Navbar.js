@@ -40,14 +40,9 @@ class Navigation extends Component {
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                  <NavLink  href="http://localhost:2000/api/logout">logout</NavLink>
+                  <NavLink  href="http://localhost:2000/api/logout">Login</NavLink>
                   </NavItem>
-                  <NavItem>
-              
-                  <NavLink  href="http://localhost:2000/api/logout">logout</NavLink>
-              
                   
-              </NavItem>
                  
               {(()=>{
                 if (this.props.auth){
@@ -72,13 +67,7 @@ class Navigation extends Component {
                     </DropdownItem>
                     </DropdownMenu>
                     </ButtonDropdown>
-
-
-
-              
-                )
-                  
-                
+                )   
               }})()}
 
                 
