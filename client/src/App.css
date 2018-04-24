@@ -1,0 +1,7 @@
+.chairs-back{
+  background-image: url('./assets/images/chairs.jpg');
+  background-repeat: no-repeat;
+  background-size:100%;
+  min-height: 550px
+
+}
