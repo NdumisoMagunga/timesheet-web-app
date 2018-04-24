@@ -13,9 +13,9 @@ import {  Collapse,
     DropdownItem,
 
       } from 'reactstrap';
-      import {Link} from 'react-router-dom';
-      import { Avatar,Chip } from 'material-ui';
-      import { white } from 'material-ui/styles/colors';
+import {Link} from 'react-router-dom';
+import { Avatar,Chip } from 'material-ui';
+import { white } from 'material-ui/styles/colors';
 
 class Navigation extends Component {
  
@@ -29,63 +29,62 @@ class Navigation extends Component {
         }
     }
 
-
     render(){
 
         return (
             <nav className="pos-stc">
-            <Navbar color="faded" light expand="md">
-              <NavbarBrand><img  style={{width:120,height:35}} className="brand-image"  src={logo}  /> <i style={{fontWeight:300,fontStyle:"normal"}}></i> </NavbarBrand>
-              <NavbarToggler onClick={this.toggle} />
-              <Collapse isOpen={this.state.isOpen} navbar>
-                <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <NavLink  href="/register">Register</NavLink>
-                  </NavItem>
-                  <NavItem>
-                  <NavLink  href="/login">Login</NavLink>
-                  </NavItem>
-
-                  
-                 
-              {(()=>{
-                if (this.props.auth){
-               return (
-                    <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleChip} className="white" >
-                    <DropdownToggle className="white"  size="sm" color="white">
-                      
-
-                      <Chip backgroundColor={white}>
-                    
-                        {this.props.auth.firstname} {this.props.auth.lastname} 
-                      </Chip>
-                    </DropdownToggle>
-                    <DropdownMenu>
-                    <DropdownItem header size="sm">Menu </DropdownItem>
-                    <DropdownItem size="sm" > <Link to="/">Profile </Link></DropdownItem>
-                    <DropdownItem divider /> 
-                    <DropdownItem size="sm" >
+                <Navbar color="faded" light expand="md">
+                  <NavbarBrand><img  style={{width:120,height:35}} className="brand-image"  src={logo}  /> <i style={{fontWeight:300,fontStyle:"normal"}}></i> </NavbarBrand>
+                  <NavbarToggler onClick={this.toggle} />
+                  <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="ml-auto" navbar>
                     <NavItem>
-                    <NavLink  href="http://localhost:2000/api/logout">logout</NavLink>
-                  </NavItem>
-                    </DropdownItem>
-                    </DropdownMenu>
-                    </ButtonDropdown>
-                )   
-              }})()}
+                      <NavLink  href="/register">Register</NavLink>
+                      </NavItem>
+                      <NavItem>
+                      <NavLink  href="/login">Login</NavLink>
+                      </NavItem>
 
-                
-                  
-                </Nav>
-              </Collapse>
-            </Navbar>
-         
-          </nav>
+                      {(()=>{
+                        if (this.props.auth){
+                          return (
+                            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleChip} className="white" >
+                            <DropdownToggle className="white"  size="sm" color="white">
+                              
+                              <Chip backgroundColor={white}>
+                            
+                                {this.props.auth.firstname} {this.props.auth.lastname} 
+                              </Chip>
+                            </DropdownToggle>
+
+                            <DropdownMenu>
+                              <DropdownItem header size="sm">Menu </DropdownItem>
+                              <DropdownItem size="sm" > <Link to="/">Profile </Link></DropdownItem>
+                              <DropdownItem divider /> 
+                              <DropdownItem size="sm" >
+                            <NavItem>
+                            <NavLink  href="http://localhost:2000/api/logout">logout</NavLink>
+                            </NavItem>
+                            </DropdownItem>
+                            </DropdownMenu>
+                            </ButtonDropdown>
+                        )   
+                    }})()}
+
+                    </Nav>
+                  </Collapse>
+                </Navbar>
+            
+            </nav>
         )
 
     }
 
 }
+function matchStateToProps(state){
+  return {
+      auth: state.auth
 
-
+  }
+}
 export default Navigation;
