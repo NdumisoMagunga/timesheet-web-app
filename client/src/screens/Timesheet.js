@@ -6,14 +6,24 @@ export default class Timesheet extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            fadeIn: false,
+            inActive: false,
+            fadeOut: true,
+            outActive: false
         }
-        this.toggle = this.toggle.bind(this)
+        this.toggleIn = this.toggleIn.bind(this)
+        this.toggleOut = this.toggleOut.bind(this)
     }
 
-    toggle() {
+    toggleIn() {
         this.setState({
-            fadeIn: !this.state.fadeIn
+            inActive: !this.state.inActive,
+            fadeOut: !this.state.fadeOut
+        })
+    }
+
+    toggleOut() {
+        this.setState({
+            outActive: !this.state.outActive
         })
     }
 
@@ -26,10 +36,10 @@ export default class Timesheet extends React.Component{
                 <Container>
                 <Row>
                     <Col xs='6'>
-                        <h2 style={{textAlign: 'center'}} className="display-3">CHECK-IN</h2>
+                        <h3 style={{textAlign: 'center'}} className="display-3">CHECK-IN</h3>
                         <p className="lead">
-                            <Button style={{width: 200, marginLeft: 160}} color="primary" onClick={this.toggle}>IN</Button>
-                            <Fade in={this.state.fadeIn} tag="h5" className="mt-3">
+                            <Button style={{width: 200, marginLeft: 160}} color="primary" onClick={this.toggleIn}>IN</Button>
+                            <Fade in={this.state.inActive} tag="h5" className="mt-3">
                                 <Form>
                                     <FormGroup>
                                         <Input type="textarea" name="time" id="exampleTime" placeholder="Time" />
@@ -47,10 +57,10 @@ export default class Timesheet extends React.Component{
                     </Col>
 
                     <Col xs='6'>
-                        <h2 style={{textAlign: 'center'}} className="display-3">CHECK-OUT</h2>
+                        <h3 style={{textAlign: 'center'}} className="display-3">CHECK-OUT</h3>
                         <p className="lead">
-                            <Button disabled={this.state.fadeIn} style={{width: 200, marginLeft: 160}} color="primary" onClick={this.toggle}>OUT</Button>
-                            <Fade in={this.state.fadeIn} tag="h5" className="mt-3">
+                            <Button disabled={this.state.fadeOut} style={{width: 200, marginLeft: 160}} color="primary" onClick={this.toggleOut}>OUT</Button>
+                            <Fade in={this.state.outActive} tag="h5" className="mt-3">
                                 <Form>
                                     <FormGroup>
                                         <Input type="textarea" name="time" id="time" placeholder="Time" />
