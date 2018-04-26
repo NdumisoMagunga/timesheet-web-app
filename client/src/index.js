@@ -8,5 +8,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/font-awesome.min.css';
 import './assets/css/style.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+
+
+
+//redux packages
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
+import reduxThunk from 'redux-thunk';
+import reducers from './reducers';
+
+const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>, 
+    document.getElementById('root'));
 registerServiceWorker();

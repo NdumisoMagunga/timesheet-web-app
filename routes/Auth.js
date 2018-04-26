@@ -19,9 +19,13 @@ router.post('/user/signup',(req,res,next)=>{
                  if(existingUser){
                 res.send({ errors: 'Account with that email address already exists' });
                  }
-                 user.save(function(err){
+                 user.save(function(err, savedUser){
                      if(err){return next(err);}
-                     res.json({response: "User profile added", user: user});
+                     req.login(savedUser, (err)=>{
+                         if (err) return next(err);
+
+                         res.redirect('/profile')
+                     })
                  });
              }  
         });
@@ -41,7 +45,7 @@ router.post('/user/login', function(req,res,next){
            // return res.json(user);
            req.logIn(user,(err)=>{
                if (err) return next(err);
-               console.log('user to log in',req.user )
+               console.log('user logged in',req.user )
                res.redirect('/');
            })
            
@@ -50,7 +54,7 @@ router.post('/user/login', function(req,res,next){
     })(req, res, next);
 });
 
-router.get('/logout',function(req,res,next){
+router.get('/user/logout',function(req,res,next){
 req.logout();
 res.redirect('/');
 })
@@ -60,7 +64,7 @@ res.redirect('/');
 
 
 router.get('/get-current-user', (req,res,next)=>{
-    console.log(req.user);
+    console.log('getting user',req.user);
     if(req.user){
         
         return res.json({"user":req.user});
@@ -68,6 +72,20 @@ router.get('/get-current-user', (req,res,next)=>{
         res.json({"user":false})
     }
     
+})
+
+
+
+
+//For Test Purposes
+router.get('/user', (req,res,next)=>{
+    User.find({})
+    .populate()
+    .exec((err,user)=>{
+        if (err) return next(err);
+        res.json(user);
+    })
+
 })
 
 module.exports = router;

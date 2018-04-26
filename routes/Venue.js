@@ -7,7 +7,7 @@ const User = require('../models/User');
 router.post('/add-venue', (req,res,next)=>{
    let newVenue = new Venue({
        address: req.body.address,
-       location: req.body.location,
+       location: [req.body.longitude,req.body.latitude],
        altitude: req.body.altitude,
        name: req.body.name
    })
@@ -51,9 +51,12 @@ router.put('/assign-user', (req,res,next)=>{
                 }
 
                 venue.assignedPeople.push(req.body.user)
-                venue.save(err =>{
+                venue.save((err , savedVenue)=>{
                     if (err) return next(err);
-
+                    user.venues.push(savedVenue._id);
+                    user.save(err=>{
+                        if (err) return next(err);
+                    })
                     res.json({message:user.firstname +' '+user.lastname +' has been assgined to '+ venue.name})
                 })
             })
@@ -80,7 +83,9 @@ router.put('/update-venue/:id', (req,res,next)=>{
 
 
 router.get('/venue',(req,res,next)=>{
-   Venue.find({},(err, venues)=>{
+   Venue.find({})
+   .populate('assignedPeople')
+   .exec((err, venues)=>{
        if(err)return next(err);
        res.json(venues)
    })

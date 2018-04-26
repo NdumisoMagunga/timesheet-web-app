@@ -9,7 +9,8 @@ const userSchema = new Schema({
     "email":String,
     "password":String,
     "picture":String,
-    "isAdmin":{type:Boolean, default:false}
+    "isAdmin":{type:Boolean, default:false},
+    "venues":[{type:Schema.Types.ObjectId, ref:'Venue'}]
 })
 
 userSchema.pre('save', function(next){
