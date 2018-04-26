@@ -1,17 +1,35 @@
 import React from 'react';
-import { Container, Row, Col, Jumbotron, Button, Fade, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-
-export default class Timesheet extends React.Component{
+import {Modal,ModalBody,ModalHeader,ModalFooter, Container, Row, Col, Jumbotron, Button, Fade, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {FontIcon,Paper,List,ListItem, Table,TableBody,TableHeader,TableHeaderColumn,TableRow,TableRowColumn, RaisedButton} from 'material-ui'
+import * as moment from 'moment';
+import {connect} from 'react-redux';
+ class Timesheet extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
             inActive: false,
             fadeOut: true,
-            outActive: false
+            outActive: false,
+            isOpen :false,
+            time:moment().format('HH:mm'),
+            date:moment().format('DD-MM-YYYY'),
+            venue:''
         }
         this.toggleIn = this.toggleIn.bind(this)
         this.toggleOut = this.toggleOut.bind(this)
+        this.toggleModal= this.toggleModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    componentDidMount(){
+        console.log('user', this.props.auth)
+    }
+
+    toggleModal(){
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
     }
 
     toggleIn() {
@@ -28,11 +46,72 @@ export default class Timesheet extends React.Component{
     }
 
 
-
-
+handleSubmit()
+{
+    console.log(this.state);
+}
     render(){
         return(
             <div>
+            <Jumbotron className="timesheet-jumbotron">
+            <div className="timesheet-cover">
+            <div className="" style={{padding:90}}>
+            <h1 className="orange" style={{fontWeight:"300"}}>Welcome, {this.props.auth.firstname} {this.props.auth.lastname}</h1>
+            <p className="lead white-text">This Dashboard Will allow you to manage your current, and previous timesheet sessions.</p>
+ 
+        </div>
+            </div>
+            </Jumbotron>
+
+            <Container>
+            <Row style={{marginBottom:10}}>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+                <Col>
+                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-clock-o"/>} label="Start New Time Session"  labelStyle={{fontWeight:"600"}}/>
+            
+                </Col>
+
+            </Row>
+           
+            <Paper rounded={false} zDepth={4} >
+            <ListItem primaryText="Active Timesheets" style={{color:'black' ,fontWeight:"600"}} />
+
+            
+            </Paper>
+            
+            <Table>
+            <TableHeader>
+            <TableRow>
+            <TableHeaderColumn>Date</TableHeaderColumn>
+            <TableHeaderColumn>Location</TableHeaderColumn>
+            <TableHeaderColumn>Checked-in (Time)</TableHeaderColumn>
+            <TableHeaderColumn>Action</TableHeaderColumn>
+            </TableRow>
+            </TableHeader>
+            <TableBody>
+
+            <TableRow>
+            <TableRowColumn>25-04-2018</TableRowColumn>
+            <TableRowColumn>Itthynk Smart Solutions</TableRowColumn>
+            <TableRowColumn> 09:00</TableRowColumn>
+            <TableRowColumn><RaisedButton icon={<FontIcon className="fa fa-clock-o"/>} label="Checkout" labelStyle={{fontWeight:"600"}} primary={true} /></TableRowColumn>
+            </TableRow>
+            <TableRow>
+            <TableRowColumn>25-04-2018</TableRowColumn>
+            <TableRowColumn>Itthynk Smart Solutions</TableRowColumn>
+            <TableRowColumn> 09:00</TableRowColumn>
+            <TableRowColumn><RaisedButton icon={<FontIcon className="fa fa-clock-o"/>} label="Checkout" labelStyle={{fontWeight:"600"}} primary={true} /></TableRowColumn>
+            </TableRow>
+            </TableBody>
+            </Table>
+            </Container>
+         
+
+
+
+
                 <Container>
                 <Row>
                     <Col xs='6'>
@@ -89,7 +168,54 @@ export default class Timesheet extends React.Component{
 
                     </Jumbotron>
                 </Container>
+
+
+                <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
+                    <ModalHeader>START NEW TIME SESSION </ModalHeader>
+                    <ModalBody>
+                    <Form  >
+                    <FormGroup>
+                    <Label for="date">DATE</Label>
+                    <Input type="text"  onChange={(e)=> {this.setState({date:e.target.value})}} value={moment().format('DD-MM-YYYY')} name="date" id="date" placeholder="select venue" required={true} disabled />
+                  
+                </FormGroup>
+
+                <FormGroup>
+                <Label for="time">TIME</Label>
+                <Input type="text"  onChange={(e)=> {this.setState({time:e.target.value})}} value={moment().format('HH:mm')} name="time" id="time" placeholder="select venue" required={true} disabled/>
+                
+               
+            </FormGroup>
+                    <FormGroup>
+                        <Label for="venuePicker">SELECT VENUE</Label>
+                        <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="venuePicker" placeholder="select venue" required={true}>
+                        
+                        {this.props.auth.venues.map((venue,index)=>(
+                            <option key={index} value={venue._id}>{venue.name} </option>
+                        )
+
+                    )}
+                        </Input>
+                    </FormGroup>
+               
+                    <FormGroup>
+                    <RaisedButton icon={<FontIcon className="fa fa-clock-o"/>} onClick={this.handleSubmit} label="Start Tracking"  labelStyle={{fontWeight:"600"}}/>
+                    </FormGroup>
+             </Form>
+                    
+                    </ModalBody>
+                    <ModalFooter></ModalFooter>
+                </Modal>
+                
             </div>
         )
     }
 }
+
+
+function mapStateToProps({auth}){
+    return {
+        auth
+    }
+}
+export default  connect(mapStateToProps,null) (Timesheet);

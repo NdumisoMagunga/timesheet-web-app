@@ -8,7 +8,9 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+  User.findById(id)
+  .populate('venues')
+  .exec( function(err, user) {
     done(err, user);
   });
 });
@@ -20,7 +22,11 @@ passport.use('local-login', new LocalStrategy({
   passwordField: 'password',
   passReqToCallback: true
 }, function(req, email, password, done) {
-  User.findOne({ email: email}, function(err, user) {
+
+
+  User.findOne({ email: email})
+  .populate('venues')
+  .exec( function(err, user) {
     if (err) return done(err);
 
     if (!user) {

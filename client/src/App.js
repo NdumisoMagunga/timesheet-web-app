@@ -8,31 +8,36 @@ import Login from './screens/Login';
 import Timesheet from './screens/Timesheet';
 import Profile from './screens/Profile';
 import Register from './screens/Register';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
+import * as actions from './actions';
 
-
+import {connect} from 'react-redux';
 
 class App extends Component {
   render() {
     return (
+      <MuiThemeProvider>
+      <BrowserRouter>
       <div>
       <Navigation />
-    
-      <BrowserRouter>
-      
-      <div>
-
-      <Route component={Home} exact path={'/'}/>
+      {this.props.auth ? (<Route component={Timesheet} exact path={'/'}/>):(<Route component={Home} exact path={'/'}/>)}
       <Route component={Login} exact path={'/login'}/>
-      <Route component={Timesheet} exact path={'/timesheet'}/>
       <Route component={Register} exact path={'/register'}/>
       <Route component={Profile} exact path={'/profile'}/>
       </div>
       </BrowserRouter>
-      </div>
+      </MuiThemeProvider>
+     
     );
   }
 }
 
-export default App;
+function mapStateToProps({auth}){
+  return {
+    auth
+  }
+}
+
+export default connect(mapStateToProps,actions)(App);

@@ -6,16 +6,17 @@ import {  Collapse,
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
     ButtonDropdown,
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-
+    NavLink as NavLin
       } from 'reactstrap';
-import {Link} from 'react-router-dom';
-import { Avatar,Chip } from 'material-ui';
-import { white } from 'material-ui/styles/colors';
+      import {Link, NavLink } from 'react-router-dom';
+   
+
+      import {connect} from 'react-redux';
+      import * as actions from '../actions'
 
 class Navigation extends Component {
  
@@ -27,64 +28,81 @@ class Navigation extends Component {
             "modal":false,
             "dropdownOpen":false
         }
+        this.toggle = this.toggle.bind(this);
+    }
+
+    toggle(){
+      this.setState({
+        isOpen:!this.state.isOpen
+      })
     }
 
     render(){
 
         return (
             <nav className="pos-stc">
-                <Navbar color="faded" light expand="md">
-                  <NavbarBrand><img  style={{width:120,height:35}} className="brand-image"  src={logo}  /> <i style={{fontWeight:300,fontStyle:"normal"}}></i> </NavbarBrand>
-                  <NavbarToggler onClick={this.toggle} />
-                  <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className="ml-auto" navbar>
-                    <NavItem>
-                      <NavLink  href="/register">Register</NavLink>
-                      </NavItem>
-                      <NavItem>
-                      <NavLink  href="/login">Login</NavLink>
-                      </NavItem>
+            <Navbar color="faded" light expand="md">
+              <NavbarBrand href="/"><img  style={{width:120,height:35}} className="brand-image"  src={logo}  /> <i style={{fontWeight:300,fontStyle:"normal"}}></i> </NavbarBrand>
+              <NavbarToggler onClick={this.toggle} />
+              <Collapse isOpen={this.state.isOpen} navbar>
+                <Nav className="ml-auto" navbar>
 
-                      {(()=>{
-                        if (this.props.auth){
-                          return (
-                            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleChip} className="white" >
-                            <DropdownToggle className="white"  size="sm" color="white">
-                              
-                              <Chip backgroundColor={white}>
-                            
-                                {this.props.auth.firstname} {this.props.auth.lastname} 
-                              </Chip>
-                            </DropdownToggle>
+                {!this.props.auth ? (
+          
+                  <NavItem >
+                     <NavLink style={{marginLeft:10, marginRight:10}}  to="/register">Register</NavLink>
+                  </NavItem>
+               
+                 ): null}
 
-                            <DropdownMenu>
-                              <DropdownItem header size="sm">Menu </DropdownItem>
-                              <DropdownItem size="sm" > <Link to="/">Profile </Link></DropdownItem>
-                              <DropdownItem divider /> 
-                              <DropdownItem size="sm" >
-                            <NavItem>
-                            <NavLink  href="http://localhost:2000/api/logout">logout</NavLink>
-                            </NavItem>
-                            </DropdownItem>
-                            </DropdownMenu>
-                            </ButtonDropdown>
-                        )   
-                    }})()}
+             {!this.props.auth ? (
+          
+             
+              <NavItem>
+                <NavLink style={{marginLeft:10, marginRight:10}} to="/login">Login</NavLink>
+              </NavItem>
+           
+             ): null}
 
-                    </Nav>
-                  </Collapse>
-                </Navbar>
-            
-            </nav>
+                  
+                 
+              {(()=>{
+                if (this.props.auth){
+               return (
+                <NavItem >
+                <NavLink className="nav-link" to="/profile">{this.props.auth.firstname} {this.props.auth.lastname} </NavLink>
+              </NavItem>
+
+                    
+                        
+                    
+                 
+                )   
+              }})()}
+
+              {this.props.auth ? (
+                <NavItem >
+                <NavLin style={{marginLeft:10, marginRight:10}}  href="/api/user/logout" to="/api/user/logout"><i className="fa fa-sign-out" /> Logout</NavLin>
+              </NavItem>
+
+              ): null}
+                
+                  
+                </Nav>
+              </Collapse>
+            </Navbar>
+         
+          </nav>
         )
 
     }
 
 }
-function matchStateToProps(state){
-  return {
-      auth: state.auth
 
+function mapStateToProps(state){
+return {
+  auth:state.auth
   }
 }
-export default Navigation;
+
+export default connect(mapStateToProps,actions)(Navigation);

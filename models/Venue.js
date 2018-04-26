@@ -5,7 +5,7 @@ const venueSchema = new Schema({
     "address":String,
     "location":[Number],
     "altitude":Number,
-    "Name":{type:String, unique:true},
+    "name":{type:String, unique:true},
     "assignedPeople":[{type:Schema.Types.ObjectId, ref:"User"}]
 
 })
