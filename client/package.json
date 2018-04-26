@@ -15,7 +15,10 @@
     "reactstrap": "^5.0.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
+<<<<<<< HEAD
     "semantic-ui-css": "^2.3.1",
+=======
+>>>>>>> e36058edb8202e10962e27a7ae9b62ded3ad5c95
     "semantic-ui-react": "^0.79.1"
   },
   "devDependencies": {
@@ -27,9 +30,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy":{
-    "/api/*":{
-      "target":"http://localhost:2000"
+  "proxy": {
+    "/api/*": {
+      "target": "http://localhost:2000"
     }
   }
 }

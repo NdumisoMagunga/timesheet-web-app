@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button,Row,Col, Container} from 'reactstrap';
+
 
 class Profile extends Component {
 constructor(props){
@@ -10,18 +10,21 @@ constructor(props){
 
 render(){
     return (
-        <div>
-        
-        <p>Profile</p>
-        <Card>
-            <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />
-            <CardBody>
-                <CardTitle>Card title</CardTitle>
-                <CardSubtitle>Card subtitle</CardSubtitle>
-                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-            </CardBody>
-      </Card>
-        
+        <div>    
+        <Container>
+
+            <Row>
+            <Col md={6} >
+            <h4>Your Profile</h4>
+            <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" 
+            style={{ borderTopLeftRadius: 20,borderTopRightRadius: 20,borderBottomLeftRadius: 20,borderBottomRightRadius: 20,overflow: 'hidden',height: 205,width:230}}
+             />
+            <CardTitle>Ndumiso Magunga</CardTitle>
+             <CardText>Magunga55@gmail.com</CardText>
+            <CardText><Button color="success">Edit Profile</Button></CardText>
+      </Col>
+      </Row>
+        </Container>
         </div>
     )
 }
