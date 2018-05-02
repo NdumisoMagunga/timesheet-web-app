@@ -18,16 +18,16 @@ render(){
         <div>
         <Jumbotron className="welcome-jumbotron" >
         <div className="cover">
-        <div className="container">
-        <div className="row">
-            <div className="" style={{padding:90}}>
-                <h1 className="orange" style={{fontWeight:"300"}}>Welcome to Itthynk Timesheet</h1>
-                <p className="lead white-text">Managing Timesheets made practical.</p>
-                <a className="main-button icon-button" href="/register">Get Started!</a>
+            <div className="container">
+            <div className="row">
+                <div className="" style={{padding:90}}>
+                    <h1 className="orange" style={{fontWeight:"300"}}>Welcome to Itthynk Timesheet</h1>
+                    <p className="lead white-text">Managing Timesheets made practical.</p>
+                    <a className="main-button icon-button" href="/register">Get Started!</a>
+                </div>
+            </div>
             </div>
         </div>
-    </div>
-    </div>
         </Jumbotron>
         <Container>
         <Row>

@@ -29,9 +29,6 @@
   "proxy": {
     "/api/*": {
       "target": "http://localhost:2000"
-    },
-    "/api/time-in":{
-      "target":"http://localhost:2000/api/time-in"
     }
   }
 }

@@ -1,7 +1,21 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button,Row,Col, Container} from 'reactstrap';
+import { Card,
+     CardImg,
+     CardText,
+     CardBody,
+     CardTitle,
+     CardSubtitle,
+     Form,
+     FormGroup,
+     Button,
+     Row,
+     Col,
+     Label, 
+     Input,
+     Container} from 'reactstrap';
 import {connect} from 'react-redux';
 import * as actions from '../actions';
+import { Grid, Image } from 'semantic-ui-react';
 
 class Profile extends Component {
 constructor(props){
@@ -15,20 +29,41 @@ componentDidMount(){
 render(){
     return (
         <div>    
-        <Container>
-
-            <Row>
-            <Col md={6} >
-            <h4>Your Profile</h4>
-            <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" 
-            style={{ borderTopLeftRadius: 20,borderTopRightRadius: 20,borderBottomLeftRadius: 20,borderBottomRightRadius: 20,overflow: 'hidden',height: 205,width:230}}
-             />
-            <CardTitle>{this.props.auth.firstname} {this.props.auth.lastname}</CardTitle>
-             <CardText>{this.props.auth.email}</CardText>
-            <CardText><Button color="success">Edit Profile</Button></CardText>
-      </Col>
-      </Row>
-        </Container>
+            <Grid container columns={2}>
+                <Grid.Column>
+                    <Form>
+                        <h4>Edit Profile</h4>
+                            <FormGroup row> 
+                                <Col sm= "10">
+                                    <Input type="text" name="firstname" id="firstname"placeholder={this.props.auth.firstname}  />  
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm= "10">
+                                    <Input type="text" name="lastname" id="lastname" placeholder={this.props.auth.lastname}/> 
+                                    </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Col sm= "10">
+                                    <Input type="email" name="email" id="email" placeholder= {this.props.auth.email}/>
+                                </Col> 
+                            </FormGroup>
+                            <Button color="success">Edit Profile</Button>
+                    </Form>
+                </Grid.Column>
+                  
+                <Grid.Column>
+                    <h4>Your Profile</h4>
+                        <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" 
+                        style={{ borderTopLeftRadius: 20,borderTopRightRadius: 20,borderBottomLeftRadius: 20,borderBottomRightRadius: 20,overflow: 'hidden',height: 205,width:230}}
+                        />
+                        <CardBody>
+                            <CardTitle>{this.props.auth.firstname} {this.props.auth.lastname}</CardTitle>
+                            <CardSubtitle>{this.props.auth.email}</CardSubtitle>
+                            
+                        </CardBody>
+                </Grid.Column>
+            </Grid>
         </div>
     )
 }
