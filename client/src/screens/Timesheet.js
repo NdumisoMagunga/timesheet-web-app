@@ -2,30 +2,52 @@ import React from 'react';
 import {Modal,ModalBody,ModalHeader,ModalFooter, Container, Row, Col, Jumbotron, Button, Fade, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import {FontIcon,Paper,List,ListItem, Table,TableBody,TableHeader,TableHeaderColumn,TableRow,TableRowColumn, RaisedButton} from 'material-ui'
 import * as moment from 'moment';
+import * as actions from '../actions'
 import {connect} from 'react-redux';
+import ReviewModal from '../components/reviewModal';
+
  class Timesheet extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
             inActive: false,
+            isReviewOpen:false,
             fadeOut: true,
+            data:{timeIn:'',timeOut:'',date:'', venue:{name:''}},
             outActive: false,
             isOpen :false,
-            time:moment().format('HH:mm'),
+            timeIn:moment().format('HH:mm'),
             date:moment().format('DD-MM-YYYY'),
-            venue:''
+            venue: this.props.auth.venues.length > 0 ? this.props.auth.venues[0]._id :null,
+            user:this.props.auth._id
         }
+
+        
         this.toggleIn = this.toggleIn.bind(this)
         this.toggleOut = this.toggleOut.bind(this)
         this.toggleModal= this.toggleModal.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.reviewToggle = this.reviewToggle.bind(this);
+        this.setData = this.setData.bind(this);
     }
 
     componentDidMount(){
-        console.log('user', this.props.auth)
+        this.props.myTimesheets(this.props.auth._id);
     }
 
+    setData(shift){
+        this.setState({
+            data:shift
+        })
+    }
+    reviewToggle(shift){
+        this.setState({
+            data:shift,
+            isReviewOpen:!this.state.isReviewOpen
+            
+        })
+    }
     toggleModal(){
         this.setState({
             isOpen: !this.state.isOpen
@@ -45,10 +67,36 @@ import {connect} from 'react-redux';
         })
     }
 
+handleCheckOut({user,date, venue,timeIn}){
+    let obj= {
+        user,
+        date,
+        timeIn,
+        venue: venue._id,
+        timeOut: moment().format('HH:mm')
+    };
+    
+    this.props.CheckOut(obj);
+    this.props.myTimesheets(this.props.auth._id);
+}
 
 handleSubmit()
 {
     console.log(this.state);
+    this.props.CheckIn(this.state);
+    this.toggleModal();
+    this.props.myTimesheets(this.props.auth._id);
+
+}
+
+calcDuration({date,timeIn,timeOut}){
+    var now = date +" "+timeOut;
+    var then = date +" "+timeIn;
+
+    var ms = moment(now, "DD/MM/YYYY HH:mm").diff(moment(then, "DD/MM/YYYY HH:mm"));
+    var d = moment.duration(ms);
+    var s = Math.floor(d.asHours()) +" hour(s) "+ moment.utc(ms).format("mm") + " minutes"
+    return s;
 }
     render(){
         return(
@@ -76,98 +124,100 @@ handleSubmit()
             </Row>
            
             <Paper rounded={false} zDepth={4} >
-            <ListItem primaryText="Active Timesheets" style={{color:'black' ,fontWeight:"600"}} />
-
-            
+                 <ListItem primaryText="Active Timesheets" style={{color:'black' , fontWeight:"600"}} />
             </Paper>
             
-            <Table>
+            <Table style={{marginBottom:50}}>
             <TableHeader>
             <TableRow>
             <TableHeaderColumn>Date</TableHeaderColumn>
             <TableHeaderColumn>Location</TableHeaderColumn>
-            <TableHeaderColumn>Checked-in (Time)</TableHeaderColumn>
+            <TableHeaderColumn>Checked-In (Time)</TableHeaderColumn>
             <TableHeaderColumn>Action</TableHeaderColumn>
             </TableRow>
             </TableHeader>
             <TableBody>
+            {this.props.mysheets ? 
+                this.props.mysheets.map((shift,index)=> {
+                    if (shift.isActive){
+                        return (
+                            <TableRow selectable={false}>
+                            <TableRowColumn>{shift.date}</TableRowColumn>
+                            <TableRowColumn>{shift.venue.name}</TableRowColumn>
+                            <TableRowColumn>{shift.timeIn}</TableRowColumn>
+                            <TableRowColumn><RaisedButton onClick={()=> this.handleCheckOut(shift)} icon={<FontIcon className="fa fa-clock-o"/>} label="Checkout" labelStyle={{fontWeight:"600"}} primary={true} /></TableRowColumn>
+                            </TableRow>
+                        )
+                    }
+                })
+               :
+                
+                (
+                    <TableRow>
+                   
+                    <TableRowColumn>no timesheets submitted</TableRowColumn>
+                    
+                    </TableRow>
 
-            <TableRow>
-            <TableRowColumn>25-04-2018</TableRowColumn>
-            <TableRowColumn>Itthynk Smart Solutions</TableRowColumn>
-            <TableRowColumn> 09:00</TableRowColumn>
-            <TableRowColumn><RaisedButton icon={<FontIcon className="fa fa-clock-o"/>} label="Checkout" labelStyle={{fontWeight:"600"}} primary={true} /></TableRowColumn>
-            </TableRow>
-            <TableRow>
-            <TableRowColumn>25-04-2018</TableRowColumn>
-            <TableRowColumn>Itthynk Smart Solutions</TableRowColumn>
-            <TableRowColumn> 09:00</TableRowColumn>
-            <TableRowColumn><RaisedButton icon={<FontIcon className="fa fa-clock-o"/>} label="Checkout" labelStyle={{fontWeight:"600"}} primary={true} /></TableRowColumn>
-            </TableRow>
+                )}
+          
+         
             </TableBody>
+            </Table>
+
+            <Paper rounded={false} zDepth={4} >
+            <ListItem primaryText="My Timesheet" style={{color:'black' ,fontWeight:"600"}} />
+            </Paper>
+
+            <Table style={{marginBottom:50}}>
+            <TableHeader>
+            <TableRow>
+            <TableHeaderColumn>Date</TableHeaderColumn>
+            <TableHeaderColumn>Location</TableHeaderColumn>
+            <TableHeaderColumn>Checked-In (Time)</TableHeaderColumn>
+            <TableHeaderColumn>Checked-Out (Time)</TableHeaderColumn>
+            <TableHeaderColumn>Duration</TableHeaderColumn>
+            <TableHeaderColumn>Action(s)</TableHeaderColumn>
+            </TableRow>
+            </TableHeader>
+            <TableBody>
+            {this.props.mysheets ? 
+                this.props.mysheets.map((shift,index)=> {
+                    if (!shift.isActive){
+                        return (
+                            <TableRow selectable={false}>
+                            <TableRowColumn>{shift.date}</TableRowColumn>
+                            <TableRowColumn>{shift.venue.name}</TableRowColumn>
+                            <TableRowColumn>{shift.timeIn}</TableRowColumn>
+                            <TableRowColumn>{shift.timeOut}</TableRowColumn>
+                            <TableRowColumn>{this.calcDuration(shift)}</TableRowColumn>
+                             <TableRowColumn><RaisedButton onClick={ ()=> {
+                                                                this.setData(shift);
+                                                                this.reviewToggle()
+
+                                                            }} 
+                                                            icon={<FontIcon style={{fontSize:11}} className="fa fa-paste"/>} label="Submit for Review" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8}} primary={false} /></TableRowColumn>
+                            </TableRow>
+                        )
+                    }
+                })
+               :
+                
+                (
+                    <TableRow>
+                   
+                    <TableRowColumn>no timesheets records found</TableRowColumn>
+                    
+                    </TableRow>
+
+                )}
+          
+         
+            </TableBody>
+
             </Table>
             </Container>
          
-
-
-
-
-                <Container>
-                <Row>
-                    <Col xs='6'>
-                        <h3 style={{textAlign: 'center'}} className="display-3">CHECK-IN</h3>
-                        <p className="lead">
-                            <Button style={{width: 200, marginLeft: 160}} color="primary" onClick={this.toggleIn}>IN</Button>
-                            <Fade in={this.state.inActive} tag="h5" className="mt-3">
-                                <Form>
-                                    <FormGroup>
-                                        <Input type="textarea" name="time" id="exampleTime" placeholder="Time" />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Input type="textarea" name="date" id="exampleDate" placeholder="Date" />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Input type="textarea" name="location" id="exampleLocation" placeholder="Location" />
-                                    </FormGroup>
-                                </Form>
-                            </Fade>
-                        </p>
-
-                    </Col>
-
-                    <Col xs='6'>
-                        <h3 style={{textAlign: 'center'}} className="display-3">CHECK-OUT</h3>
-                        <p className="lead">
-                            <Button disabled={this.state.fadeOut} style={{width: 200, marginLeft: 160}} color="primary" onClick={this.toggleOut}>OUT</Button>
-                            <Fade in={this.state.outActive} tag="h5" className="mt-3">
-                                <Form>
-                                    <FormGroup>
-                                        <Input type="textarea" name="time" id="time" placeholder="Time" />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Input type="textarea" name="date" id="date" placeholder="Date" />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Input type="textarea" name="location" id="location" placeholder="Location" />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Input type="textarea" name="hours" id="hours" placeholder="Total hours " />
-                                    </FormGroup>
-                                </Form>
-                            </Fade>
-                        </p>
-
-                    </Col>
-
-                </Row>
-                    <Jumbotron>
-                            <h1 className="display-3">Summary</h1>
-                            <p className="lead">This is a simple hero unit, a simple Jumbotron-style component for calling extra attention to featured content or information.</p>
-                            <hr className="my-2" />
-                            <p>It uses utility classes for typgraphy and spacing to space content out within the larger container.</p>
-
-                    </Jumbotron>
-                </Container>
 
 
                 <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
@@ -207,15 +257,17 @@ handleSubmit()
                     <ModalFooter></ModalFooter>
                 </Modal>
                 
+                <ReviewModal reviewToggle={this.reviewToggle} isReviewOpen={this.state.isReviewOpen} data={this.state.data}/>
             </div>
         )
     }
 }
 
 
-function mapStateToProps({auth}){
+function mapStateToProps({auth, mysheets}){
     return {
-        auth
+        auth,
+        mysheets
     }
 }
-export default  connect(mapStateToProps,null) (Timesheet);
+export default  connect(mapStateToProps,actions) (Timesheet);

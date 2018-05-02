@@ -1,6 +1,24 @@
 const router = require('express').Router();
 const Timesheet = require('../models/Timesheet');
 
+
+
+router.get('/my-timesheet/:user', (req,res,next)=>{
+    Timesheet.find({user:req.params.user})
+    .populate('venue')
+    .exec((err, shifts)=>{
+        if (err) return next(err);
+
+        res.json(shifts);
+    })
+});
+
+router.get('/timesheets', (req,res,next)=>{
+    Timesheet.find({}, (err, timesheets)=>{
+        if (err) return next(err);
+        res.json(timesheets)
+    });
+})
 router.post('/time-in', (req,res,next)=>{
   let shift = new Timesheet({
       user: req.body.user,
@@ -16,13 +34,21 @@ router.post('/time-in', (req,res,next)=>{
 });
 
 
-router.post('/time-out', (req,res,next)=>{
-    Timesheet.find({user:req.user,
-                    date:req.date,
-                    venue:req.venue}, (err, sheet)=>{
+router.post('/time-out',(req,res,next)=>{
+    Timesheet.findOne({user:req.body.user,
+                    date:req.body.date,
+                    timeIn:req.body.timeIn,
+                    venue:req.body.venue}, (err, shift)=>{
                         if (err) return next(err);
+                        shift.timeOut= req.body.timeOut;
+                        shift.isActive = false;
 
-                        res.json({message:'You Have been Checked-out'})
+                        shift.save((err)=>{
+                            if (err) return next(err);
+                            res.json({message:'You Have been Checked-out'})
+                        })
+                        
+                       
                     })
 
 });

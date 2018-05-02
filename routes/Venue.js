@@ -4,27 +4,41 @@ const Venue = require('../models/Venue');
 const User = require('../models/User');
 
 
-router.post('/add-venue', (req,res,next)=>{
+router.post('/venue', (req,res,next)=>{
+
+    console.log('venue', req.body)
    let newVenue = new Venue({
        address: req.body.address,
-       location: [req.body.longitude,req.body.latitude],
+      // location: [req.body.longitude,req.body.latitude],
        altitude: req.body.altitude,
        name: req.body.name
    })
 
    newVenue.save((err)=>{
        if (err) return next(err);
-       res.json({message:"New Venue Created"})
+       res.json({message:"New Venue Created"});
    })
 
 });
 
 router.put('/remove-user/:venue', (req,res,next)=>{
+
     Venue.findById(req.params.venue, (err, venue)=>{
+        if (err) return next(err);
         venue.assignedPeople = venue.assignedPeople.splice(venue.assignedPeople.indexOf(req.body.user)-1,venue.assignedPeople.indexOf(req.body.user) );
         venue.save((err)=>{
             if (err) return next(err);
-            res.status(200).json({"message":"user successfully removed from venue"})
+            User.findById(req.body.user, (err, user)=>{
+                if (err) return next(err);
+                user.venues = user.venues.splice(user.venues.indexOf(req.params.venue)-1,user.venues.indexOf(req.params.venue));
+
+                user.save(err =>{
+                    if (err) return next(err);
+                   return res.status(200).json({"message":"user successfully removed from venue"})
+                })
+            });
+           
+
         })
     })
 })
