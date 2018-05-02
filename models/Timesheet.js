@@ -8,7 +8,9 @@ const TimeSheetSchema = new Schema({
     "timeIn":String,
     "timeOut":String,
     "comment":String,
-    "date":{type: Date ,default: moment().format('L') },
+    "inReview":{type:Boolean, default:false},
+    "isActive":{type:Boolean, default:true},
+    "date":{type: String ,default: moment().format('L') },
     "venue":{type:Schema.Types.ObjectId, ref:'Venue'}
 });
 
