@@ -42,10 +42,10 @@ router.post('/user/login', function(req,res,next){
             return res.redirect('/');
         }else{
 
-           // return res.json(user);
+          
            req.logIn(user,(err)=>{
                if (err) return next(err);
-               console.log('user logged in',req.user )
+              
                res.redirect('/');
            })
            
@@ -64,7 +64,7 @@ res.redirect('/');
 
 
 router.get('/get-current-user', (req,res,next)=>{
-    console.log('getting user',req.user);
+  
     if(req.user){
         
         return res.json({"user":req.user});
