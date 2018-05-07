@@ -35,10 +35,7 @@ router.post('/time-in', (req,res,next)=>{
 
 
 router.post('/time-out',(req,res,next)=>{
-    Timesheet.findOne({user:req.body.user,
-                    date:req.body.date,
-                    timeIn:req.body.timeIn,
-                    venue:req.body.venue}, (err, shift)=>{
+    Timesheet.findOne({_id:req.body._id,}, (err, shift)=>{
                         if (err) return next(err);
                         shift.timeOut= req.body.timeOut;
                         shift.isActive = false;

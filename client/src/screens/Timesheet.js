@@ -5,6 +5,9 @@ import * as moment from 'moment';
 import * as actions from '../actions'
 import {connect} from 'react-redux';
 import ReviewModal from '../components/reviewModal';
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+
 
  class Timesheet extends React.Component{
 
@@ -67,8 +70,9 @@ import ReviewModal from '../components/reviewModal';
         })
     }
 
-handleCheckOut({user,date, venue,timeIn}){
+handleCheckOut({user,date, venue,timeIn,_id}){
     let obj= {
+        _id,
         user,
         date,
         timeIn,
@@ -165,11 +169,69 @@ calcDuration({date,timeIn,timeOut}){
             </TableBody>
             </Table>
 
+
             <Paper rounded={false} zDepth={4} >
             <ListItem primaryText="My Timesheet" style={{color:'black' ,fontWeight:"600"}} />
+            {this.props.mysheets.length > 0? (
+                  <ReactTable 
+                        style={{margin:20}}
+
+                        headerStyle={{backgroundColor:'white'}}
+
+                        data={this.props.mysheets.filter(shift => shift.isActive == false)}
+                        columns={[
+                          {
+                            columns: [
+                              {
+                                Header: "Date",
+                                accessor: "date"
+                              },
+                                {
+                                    Header: "Venue",
+                                    id:'venue',
+                                    accessor: d => d.venue.name
+                                  }
+                              ,
+                              {
+                                Header: "Clocked-In (time)",
+                                accessor:"timeIn"
+                              },
+                              {
+                                Header: "Clocked-Out (time)",
+                                accessor: "timeOut"
+                              },
+                              {
+                                  Header:"Duration",
+                                  id:"duration",
+                                  accessor: d => this.calcDuration(d),
+                                  
+                              },
+                              {
+                                  Header:"Action(s)",
+                                  id:"actions",
+                                  accessor: d => d,
+                                  Cell: row => (
+                                    <RaisedButton onClick={ ()=> {
+                                        this.setData(row);
+                                        this.reviewToggle()
+            
+                                    }} 
+                                    icon={<FontIcon style={{fontSize:11}} className="fa fa-paste"/>} label="Submit for Review" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8}} primary={false} />
+                                  )
+                              }
+                            ]
+                          }
+                        ]}
+                        defaultPageSize={5}
+                        className="-striped -highlight"
+                      />
+                     
+            
+            ) :null} 
             </Paper>
 
-            <Table style={{marginBottom:50}}>
+          
+        {/*    <Table style={{marginBottom:50}}>
             <TableHeader>
             <TableRow>
             <TableHeaderColumn>Date</TableHeaderColumn>
@@ -215,11 +277,9 @@ calcDuration({date,timeIn,timeOut}){
          
             </TableBody>
 
-            </Table>
+            </Table>  */}
+            
             </Container>
-         
-
-
                 <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>START NEW TIME SESSION </ModalHeader>
                     <ModalBody>
@@ -234,7 +294,6 @@ calcDuration({date,timeIn,timeOut}){
                 <Label for="time">TIME</Label>
                 <Input type="text"  onChange={(e)=> {this.setState({time:e.target.value})}} value={moment().format('HH:mm')} name="time" id="time" placeholder="select venue" required={true} disabled/>
                 
-               
             </FormGroup>
                     <FormGroup>
                         <Label for="venuePicker">SELECT VENUE</Label>

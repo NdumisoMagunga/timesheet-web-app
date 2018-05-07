@@ -64,6 +64,14 @@ class Navigation extends Component {
            
              ): null}
 
+             {(()=>{
+              if (this.props.auth.isAdmin){
+             return (
+                    <NavItem>
+                       <NavLink className="nav-link" to="/admin">Admin Central </NavLink>
+                  </NavItem>
+              )   
+            }})()}
                   
                  
               {(()=>{

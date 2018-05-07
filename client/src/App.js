@@ -8,6 +8,7 @@ import Login from './screens/Login';
 import Timesheet from './screens/Timesheet';
 import Profile from './screens/Profile';
 import Register from './screens/Register';
+import AdminCentral from './screens/AdminCentral';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -26,6 +27,7 @@ class App extends Component {
       <Route component={Login} exact path={'/login'}/>
       <Route component={Register} exact path={'/register'}/>
       <Route component={Profile} exact path={'/profile'}/>
+        {this.props.auth.isAdmin ? (<Route component={AdminCentral} exact path={'/admin'}/>):null}
       </div>
       </BrowserRouter>
       </MuiThemeProvider>
