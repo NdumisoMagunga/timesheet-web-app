@@ -15,6 +15,7 @@
     "reactstrap": "^5.0.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
+    "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.1"
   },
   "devDependencies": {
@@ -29,9 +30,6 @@
   "proxy": {
     "/api/*": {
       "target": "http://localhost:2000"
-    },
-    "/api/time-in":{
-      "target":"http://localhost:2000/api/time-in"
     }
   }
 }
