@@ -30,6 +30,7 @@ render(){
                 <Input type="email" onChange={(e)=>{this.setState({email: e.target.value})}} name="email" id="emailField" placeholder="someone@example.com" required={true}/>
             </FormGroup>
             <FormGroup>
+                
                     <Label for="passwordField">Password</Label>
                     <Input type="password" name="password" onChange={(e)=>{this.setState({password: e.target.value})}} id="passwordField"  placeholder="your password here" max={8} required={true}/>
             </FormGroup>
