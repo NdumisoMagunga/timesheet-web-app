@@ -99,7 +99,14 @@ render(){
                     <TabPane tabId="1">
                         <Row>
                         <Col sm="12">
-                            <h4>Tab 1 Contents</h4>
+                        <ul>
+
+                            {this.props.auth.venues.map((venue,index)=>(
+                            <li key={index} value={venue._id}>{venue.name} </li>
+                        )
+                            )}
+
+                        </ul>
                         </Col>
                         </Row>
                     </TabPane>
@@ -108,7 +115,7 @@ render(){
                         <Col sm="6">
                         <ul>
                             {this.props.users.map((data, index)=>(
-                                <li key={index}>{data.firstname} {data.lastname} </li>
+                                <li key={index}>{data.firstname}  {data.lastname} </li>
                             ))}
 
                         </ul>
@@ -122,7 +129,7 @@ render(){
                         <ul>
 
                             {this.props.timesheets.map((data, index)=>(
-                                <li key={index}>{data._id} </li>
+                                <li key={index}>{data.email} {data.timeIn} {data.timeOut} {data.date} {data.venue} </li>
                             ))}
 
                         </ul>

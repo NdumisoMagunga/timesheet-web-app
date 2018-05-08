@@ -51,13 +51,11 @@ export const myTimesheets = (id) => async dispatch =>{
 export const fetchTimesheets = () => async dispatch => {
     const res = await fetch('/api/timesheets');
     const data = await res.json();
-    console.log('timesheets', data);
     dispatch({type: FETCH_TIMESHEETS, payload: data});
 } 
 export const  fetchUsers =  () => async dispatch => {
     const res = await fetch('/api/users');
     const data = await res.json();
-    console.log('All user', data);
     dispatch({type: FETCH_USERS, payload: data});
 
 };
