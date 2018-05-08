@@ -11,10 +11,16 @@ class AdminCentral extends Component {
     
         this.toggle = this.toggle.bind(this);
         this.state = {
-          activeTab: '1'
+          activeTab: '1',
         };
       }
-    
+
+    componentDidMount(){
+        this.props.fetchTimesheets();
+    }
+
+
+
       toggle(tab) {
         if (this.state.activeTab !== tab) {
           this.setState({
@@ -22,6 +28,7 @@ class AdminCentral extends Component {
           });
         }
       }
+
 
 render(){
     return (
@@ -103,7 +110,9 @@ render(){
                     <TabPane tabId="3">
                         <Row>
                         <Col sm="12">
-                            <h4>Tab 3 Contents</h4>
+
+
+
                         </Col>
                         </Row>
                     </TabPane>
@@ -121,10 +130,10 @@ render(){
 }
 
 }
-function mapStateToProps({auth, mysheets}){
+function mapStateToProps({auth, timesheets}){
     return {
         auth,
-        mysheets
+        timesheets
         
     }
 }
