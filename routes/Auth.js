@@ -59,10 +59,6 @@ req.logout();
 res.redirect('/');
 })
 
-
-
-
-
 router.get('/get-current-user', (req,res,next)=>{
   
     if(req.user){
@@ -74,18 +70,21 @@ router.get('/get-current-user', (req,res,next)=>{
     
 })
 
-
-
-
-//For Test Purposes
-router.get('/user', (req,res,next)=>{
-    User.find({})
-    .populate()
-    .exec((err,user)=>{
+router.get('/users', (req,res,next)=>{
+    User.find({}, (err, users)=>{
         if (err) return next(err);
-        res.json(user);
-    })
-
+        res.json(users)
+    });
 })
+
+// //For Test Purposes
+// router.get('/user', (req,res,next)=>{
+//     User.find({})
+//     .populate()
+//     .exec((err,user)=>{
+//         if (err) return next(err);
+//         res.json(user);
+//     })
+// })
 
 module.exports = router;
