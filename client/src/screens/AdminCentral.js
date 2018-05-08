@@ -30,6 +30,7 @@ class AdminCentral extends Component {
 
     componentDidMount(){
         this.props.fetchTimesheets();
+        this.props.fetchUsers();
     }
 
 
@@ -105,18 +106,7 @@ render(){
                     <TabPane tabId="2">
                         <Row>
                         <Col sm="6">
-                            <Card body>
-                            <CardTitle>Special Title Treatment</CardTitle>
-                            <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                            <Button>Go somewhere</Button>
-                            </Card>
-                        </Col>
-                        <Col sm="6">
-                            <Card body>
-                            <CardTitle>Special Title Treatment</CardTitle>
-                            <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                            <Button>Go somewhere</Button>
-                            </Card>
+                           <h4>{this.props.users}</h4>
                         </Col>
                         </Row>
                     </TabPane>
@@ -147,8 +137,8 @@ render(){
                         <Label for="venuePicker">SELECT USER</Label>
                         <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="venuePicker" placeholder="select venue" required={true}>
                         
-                        {this.props.auth.venues.map((venue,index)=>(
-                            <option key={index} value={venue._id}>{venue.name} </option>
+                        {this.props.users.map((user,index)=>(
+                            <option key={index} value={user._id}>{user.name} </option>
                         )
 
                     )}
@@ -186,10 +176,11 @@ render(){
 }
 
 }
-function mapStateToProps({auth, timesheets}){
+function mapStateToProps({auth, timesheets,users}){
     return {
         auth,
-        timesheets
+        timesheets,
+        users
         
     }
 }
