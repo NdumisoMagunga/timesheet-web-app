@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
-import {Jumbotron, Row,Col,Button, Container,TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input} from 'reactstrap';
+import {Jumbotron, Row,Col,Button, Container,TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
+    Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
+} from 'reactstrap';
+import {FontIcon, RaisedButton} from 'material-ui';
+import * as moment from 'moment';
 import * as actions from '../actions'
 import {connect} from 'react-redux';
 import classnames from 'classnames';
@@ -11,10 +15,25 @@ class AdminCentral extends Component {
     
         this.toggle = this.toggle.bind(this);
         this.state = {
-          activeTab: '1'
+          activeTab: '1',
+          isOpen: false,
         };
+
+        this.toggleModal = this.toggleModal.bind(this);
       }
-    
+
+    toggleModal(){
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    }
+
+    componentDidMount(){
+        this.props.fetchTimesheets();
+    }
+
+
+
       toggle(tab) {
         if (this.state.activeTab !== tab) {
           this.setState({
@@ -22,6 +41,7 @@ class AdminCentral extends Component {
           });
         }
       }
+
 
 render(){
     return (
@@ -103,7 +123,7 @@ render(){
                     <TabPane tabId="3">
                         <Row>
                         <Col sm="12">
-                            <h4>Tab 3 Contents</h4>
+                            <h4>List ** List</h4>
                         </Col>
                         </Row>
                     </TabPane>
@@ -115,16 +135,61 @@ render(){
                         </Row>
                     </TabPane>
                 </TabContent>
+
+                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+
+                                <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
+                    <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
+                    <ModalBody>
+                    <Form  >
+
+                    <FormGroup>
+                        <Label for="venuePicker">SELECT USER</Label>
+                        <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="venuePicker" placeholder="select venue" required={true}>
+                        
+                        {this.props.auth.venues.map((venue,index)=>(
+                            <option key={index} value={venue._id}>{venue.name} </option>
+                        )
+
+                    )}
+                        </Input>
+                    </FormGroup>
+
+
+                    <FormGroup>
+                        <Label for="venuePicker">SELECT VENUE</Label>
+                        <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="venuePicker" placeholder="select venue" required={true}>
+                        
+                        {this.props.auth.venues.map((venue,index)=>(
+                            <option key={index} value={venue._id}>{venue.name} </option>
+                        )
+
+                    )}
+                        </Input>
+                    </FormGroup>
+
+               
+                    <FormGroup>
+                    <RaisedButton icon={<FontIcon className="fa fa-book-o"/>} onClick={this.handleSubmit} label="Assign"  labelStyle={{fontWeight:"600"}}/>
+                    </FormGroup>
+             </Form>
+                    
+                    </ModalBody>
+                    <ModalFooter></ModalFooter>
+                </Modal>
+
             </Container>
+
+            
         </div>
     )
 }
 
 }
-function mapStateToProps({auth, mysheets}){
+function mapStateToProps({auth, timesheets}){
     return {
         auth,
-        mysheets
+        timesheets
         
     }
 }
