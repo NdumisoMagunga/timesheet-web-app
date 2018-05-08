@@ -136,7 +136,7 @@ render(){
                     </TabPane>
                 </TabContent>
 
-                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
 
                                 <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
@@ -170,7 +170,7 @@ render(){
 
                
                     <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-book-o"/>} onClick={this.handleSubmit} label="Assign"  labelStyle={{fontWeight:"600"}}/>
+                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={this.handleSubmit} label="Assign"  labelStyle={{fontWeight:"600"}} primary={true}/>
                     </FormGroup>
              </Form>
                     
