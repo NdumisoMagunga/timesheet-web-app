@@ -1,4 +1,4 @@
-import { FETCH_USER,MY_TIMESHEETS, FETCH_TIMESHEETS} from './types';
+import { FETCH_USER,MY_TIMESHEETS, FETCH_TIMESHEETS, FETCH_USERS} from './types';
 
 
 
@@ -54,3 +54,10 @@ export const fetchTimesheets = () => async dispatch => {
     console.log('timesheets', data);
     dispatch({type: FETCH_TIMESHEETS, payload: data.data});
 } 
+export const  fetchUsers =  () => async dispatch => {
+    const res = await fetch('/api/users');
+    const data = await res.json();
+    console.log('All user', data);
+    dispatch({type: FETCH_USERS, payload: data});
+
+};
