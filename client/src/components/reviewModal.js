@@ -18,27 +18,25 @@ render(){
             <ModalBody>
             
             <Form  >
-            <FormGroup>
-            <Label for="date">DATE</Label>
-            <Input type="text"  value={this.props.data.date} name="date" id="date" placeholder="select venue" required={true} disabled />
-          
-        </FormGroup>
-    
-        <FormGroup>
-        <Row>
-        <Col>
-        <Label for="time">TIME-IN</Label>
-        <Input type="text" value={this.props.data.timeIn} name="time" id="time" placeholder="select venue" required={true} disabled/>
-        </Col>
-        <Col>
-        <Label for="timeOut">TIME-OUT</Label>
-        <Input type="text" value={this.props.data.timeOut}  name="timeOut" id="timeOut" placeholder="select venue" required={true} disabled/>
-        
-        </Col>
-     
-      
-        </Row>
-    </FormGroup>
+                <FormGroup>
+                    <Label for="date">DATE</Label>
+                    <Input type="text"  value={this.props.data.date} name="date" id="date" placeholder="select venue" required={true} disabled />
+                
+                </FormGroup>
+            
+                <FormGroup>
+                    <Row>
+                    <Col>
+                    <Label for="time">TIME-IN</Label>
+                    <Input type="text" value={this.props.data.timeIn} name="time" id="time" placeholder="select venue" required={true} disabled/>
+                    </Col>
+                    <Col>
+                    <Label for="timeOut">TIME-OUT</Label>
+                    <Input type="text" value={this.props.data.timeOut}  name="timeOut" id="timeOut" placeholder="select venue" required={true} disabled/>
+                    
+                </Col>
+                </Row>
+            </FormGroup>
             <FormGroup>
                 <Label for="venuePicker">VENUE</Label>
                 <Input type="text" value={this.props.data.venue.name} required={true} disabled/>
