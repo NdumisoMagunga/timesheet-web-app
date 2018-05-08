@@ -1,6 +1,6 @@
 import {FETCH_TIMESHEETS} from '../actions/types';
 
-export default function(state = false, action){
+export default function(state = [], action){
     switch(action.type){
         case FETCH_TIMESHEETS:
         return action.payload || false;
