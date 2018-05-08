@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "classnames": "^2.2.5",
     "material-ui": "^0.20.0",
     "moment": "^2.22.1",
     "moment-holiday": "^1.5.1",
