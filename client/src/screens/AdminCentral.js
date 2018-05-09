@@ -30,7 +30,7 @@ class AdminCentral extends Component {
 
     componentDidMount(){
         this.props.fetchTimesheets();
-        this.props.fetchUsers();
+         this.props.fetchUsers();
     }
 
 
@@ -99,21 +99,40 @@ render(){
                     <TabPane tabId="1">
                         <Row>
                         <Col sm="12">
-                            <h4>Tab 1 Contents</h4>
+                        <ul>
+
+                            {this.props.auth.venues.map((venue,index)=>(
+                            <li key={index} value={venue._id}>{venue.name} </li>
+                        )
+                            )}
+
+                        </ul>
                         </Col>
                         </Row>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>
                         <Col sm="6">
-                           <h4>{this.props.users}</h4>
+                        <ul>
+                            {this.props.users.map((data, index)=>(
+                                <li key={index}>{data.firstname}  {data.lastname} </li>
+                            ))}
+
+                        </ul>
+                        
                         </Col>
                         </Row>
                     </TabPane>
                     <TabPane tabId="3">
                         <Row>
                         <Col sm="12">
-                            <h4>List ** List</h4>
+                        <ul>
+
+                            {this.props.timesheets.map((data, index)=>(
+                                <li key={index}>{data.email} {data.timeIn} {data.timeOut} {data.date} {data.venue} </li>
+                            ))}
+
+                        </ul>
                         </Col>
                         </Row>
                     </TabPane>
@@ -137,8 +156,8 @@ render(){
                         <Label for="venuePicker">SELECT USER</Label>
                         <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="venuePicker" placeholder="select venue" required={true}>
                         
-                        {this.props.users.map((user,index)=>(
-                            <option key={index} value={user._id}>{user.name} </option>
+                        {this.props.users.map((data,index)=>(
+                            <option key={index} value={data._id}>{data.firstname} {data.lastname}</option>
                         )
 
                     )}
