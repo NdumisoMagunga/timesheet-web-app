@@ -1,13 +1,20 @@
 import React, {Component} from 'react';
-import {Jumbotron, Row,Col,Button, Container,TabContent, TabPane, Nav,Table, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
+import {Jumbotron, Row,Col, Container,TabContent, TabPane, Nav,Table, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
     Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
 } from 'reactstrap';
 import {FontIcon, RaisedButton} from 'material-ui';
+import { Grid,Button, Divider, Icon } from 'semantic-ui-react'
 import * as moment from 'moment';
 import * as actions from '../actions'
 import {connect} from 'react-redux';
 import classnames from 'classnames';
 
+const bstyles = {
+    button: {
+      margin: 12,
+      left: 12,
+      alignSelf: 'center'
+    }}
 
 class AdminCentral extends Component {
     constructor(props) {
@@ -16,16 +23,24 @@ class AdminCentral extends Component {
         this.toggle = this.toggle.bind(this);
         this.state = {
           activeTab: '1',
+          addVenue: false,
           isOpen: false,
           venue: this.props.venues.name,
         };
 
         this.toggleModal = this.toggleModal.bind(this);
+        this.toggleAddVenue =  this.toggleAddVenue.bind(this);
       }
 
     toggleModal(){
         this.setState({
             isOpen: !this.state.isOpen
+        })
+    }
+
+    toggleAddVenue(){
+        this.setState({
+            addVenue: !this.state.addVenue
         })
     }
 
@@ -62,9 +77,23 @@ render(){
                 </div>
             </Jumbotron>
 
+           
+
             <Container>
-            <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
-               
+                    <Button basic color='orange' onClick={this.toggleModal} floated='right'>
+                    <Icon name='home' />
+                     Assign Venue
+                
+                    </Button>
+                    <Button basic color='orange' onClick={this.toggleAddVenue} floated='left'>
+                    <Icon name='plus' />
+                    Add Venue
+                    </Button>
+                
+                <Divider hidden="true"/>
+                <Divider hidden="true"/>
+                <Divider hidden="true"/>
+                
                 <Nav tabs>
                     <NavItem>
                         <NavLink
@@ -103,34 +132,60 @@ render(){
                     <TabPane tabId="1">
                         <Row>
                         <Col sm="12">
-                        <ul>
+                        <Table hover>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Venue</th>
+                                
+                            </tr>
+                            </thead>
 
-                            {this.props.venues.map((data,index)=>(
-                            <li key={index} value={data._id}>{data.name} </li>
-                        )
-                            )}
+                            <tbody>
+                                {this.props.venues.map((data,index)=>(
+                                <tr key ={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{data.name}</td>
+     
+                                </tr>
+                                ))}
+                            </tbody>
+                        </Table>
 
-                        </ul>
                         </Col>
                         </Row>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>
                         <Col sm="6">
-                        <ul>
-                            {this.props.users.map((data, index)=>(
-                                <li key={index}>{data.firstname}  {data.lastname} </li>
-                            ))}
+                        <Table hover>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                            </tr>
+                            </thead>
 
-                        </ul>
-                        
+                            <tbody>
+                                {this.props.users.map((data, index)=>(
+                                <tr key ={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{data.firstname}</td>
+                                <td>{data.lastname}</td>
+     
+                                </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+
                         </Col>
                         </Row>
                     </TabPane>
                     <TabPane tabId="3">
                         <Row>
                         <Col sm="12">
-                        <Table>
+                        <Table hover>
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -150,6 +205,10 @@ render(){
                                 </tr>
                                 ))}
                             </tbody>
+                            <Button color='orange' basic floated='left'>
+                                <Icon name='print' />
+                                Print
+                            </Button>
                         </Table>
                         </Col>
                         </Row>
@@ -157,13 +216,34 @@ render(){
                     <TabPane tabId="4">
                         <Row>
                         <Col sm="12">
-                            <h4>Tab 4 Contents</h4>
+                        <Table hover>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Reviewed Status</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                {this.props.timesheets.map((data, index)=>(
+                                <tr key ={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{data.inReview}</td>
+                                <td>{data.date} </td>      
+                                </tr>
+                                ))}
+                            </tbody>
+                            
+
+                        </Table>
                         </Col>
                         </Row>
                     </TabPane>
                 </TabContent>
 
-                <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
+                
+                    <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
                     <Form method="PUT" action="/api/assign-user" >
@@ -194,6 +274,36 @@ render(){
                
                     <FormGroup>
                     <RaisedButton icon={<FontIcon className="fa fa-paste"/>} type="submit" label="Assign"  labelStyle={{fontWeight:"600"}}/>
+                    </FormGroup>
+                    </Form>
+                    
+                    </ModalBody>
+                    <ModalFooter></ModalFooter>
+                </Modal>
+
+
+                 <Modal  isOpen={this.state.addVenue} toggle={this.toggleAddVenue}  backdrop={true}>
+                    <ModalHeader>Add New Venue </ModalHeader>
+                    <ModalBody>
+                    <Form  method="POST" action="/api/venue">
+
+                    <FormGroup>
+                        <Label for="address">Enter Address</Label>
+                        <Input type="text"  onChange={(e)=> {this.setState({address:e.target.value})}} name="address" id="address" placeholder="Address" required={true}></Input>
+                    </FormGroup>
+
+                     <FormGroup>
+                        <Label for="name">Enter Venue Name</Label>
+                        <Input type="text"  onChange={(e)=> {this.setState({name:e.target.value})}} name="name" id="name" placeholder="Venue name" required={true}></Input>
+                    </FormGroup>
+
+                     <FormGroup>
+                        <Label for="location">Enter Location</Label>
+                        <Input type="address"  onChange={(e)=> {this.setState({location:e.target.value})}} name="location" id="location" placeholder="Location"></Input>
+                    </FormGroup>
+
+                    <FormGroup>
+                    <RaisedButton type="submit" icon={<FontIcon className="fa fa-home"/>}  label="Add Venue"  labelStyle={{fontWeight:"600"}} primary={true}/>
                     </FormGroup>
                     </Form>
                     
