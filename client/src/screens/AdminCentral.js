@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Jumbotron, Row,Col,Button, Container,TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
+import {Jumbotron, Row,Col,Button, Container,TabContent, TabPane, Nav,Table, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
     Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
 } from 'reactstrap';
 import {FontIcon, RaisedButton} from 'material-ui';
@@ -61,6 +61,8 @@ render(){
             </Jumbotron>
 
             <Container>
+            <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o" style ={{alignSelf:"flex-end"}}/>}  label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+               
                 <Nav tabs>
                     <NavItem>
                         <NavLink
@@ -126,13 +128,27 @@ render(){
                     <TabPane tabId="3">
                         <Row>
                         <Col sm="12">
-                        <ul>
+                        <Table>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Time In</th>
+                                <th>Time out</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
 
-                            {this.props.timesheets.map((data, index)=>(
-                                <li key={index}>{data.email} {data.timeIn} {data.timeOut} {data.date} {data.venue} </li>
-                            ))}
-
-                        </ul>
+                            <tbody>
+                                {this.props.timesheets.map((data, index)=>(
+                                <tr key ={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{data.timeIn}</td>
+                                <td>{data.timeOut}</td>
+                                <td>{data.date} </td>      
+                                </tr>
+                                ))}
+                            </tbody>
+                        </Table>
                         </Col>
                         </Row>
                     </TabPane>
@@ -145,12 +161,11 @@ render(){
                     </TabPane>
                 </TabContent>
 
-                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
-
-                                <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
+                
+                    <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
-                    <Form  >
+                    <Form  method="POST" action="/api/assign-user" >
 
                     <FormGroup>
                         <Label for="venuePicker">SELECT USER</Label>
@@ -179,9 +194,9 @@ render(){
 
                
                     <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-book-o"/>} onClick={this.handleSubmit} label="Assign"  labelStyle={{fontWeight:"600"}}/>
+                    <RaisedButton type ="submit" icon={<FontIcon className="fa fa-book-o"/>} label="Assign"  labelStyle={{fontWeight:"600"}}/>
                     </FormGroup>
-             </Form>
+                    </Form>
                     
                     </ModalBody>
                     <ModalFooter></ModalFooter>
