@@ -81,11 +81,12 @@ render(){
                 </div>
             </Jumbotron>
 
-            <RaisedButton onClick={this.toggleVenueModal1} icon={<FontIcon className="fa fa-home"/>} label="Add Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+           
 
             <Container>
-            <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o" style ={{alignSelf:"flex-end"}}/>}  label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
-               
+            <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+
+            <RaisedButton onClick={this.toggleVenueModal1} icon={<FontIcon className="fa fa-home"/>} label="Add Venue" labelStyle={{fontWeight:"600"}} primary={true} />
                 <Nav tabs>
                     <NavItem>
                         <NavLink
@@ -177,18 +178,7 @@ render(){
                     <TabPane tabId="3">
                         <Row>
                         <Col sm="12">
-<<<<<<< HEAD
                         <Table hover>
-=======
-                        <ul>
-
-                            {this.props.timesheets.map((data, index)=>(
-                                <li key={index}>{data.firstname} {data.timeIn} {data.timeOut} {data.date} {data.venue} </li>
-                            ))}
-
-                        </ul>
-                        <Table>
->>>>>>> 6d62d0526e737a612ab555ec180ff46577511ec5
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -239,8 +229,7 @@ render(){
                     </TabPane>
                 </TabContent>
 
-                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
-
+                
                     <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
