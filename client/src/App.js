@@ -13,7 +13,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 import * as actions from './actions';
-
 import {connect} from 'react-redux';
 
 class App extends Component {
