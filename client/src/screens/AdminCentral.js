@@ -103,34 +103,60 @@ render(){
                     <TabPane tabId="1">
                         <Row>
                         <Col sm="12">
-                        <ul>
+                        <Table hover>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Venue</th>
+                                
+                            </tr>
+                            </thead>
 
-                            {this.props.venues.map((data,index)=>(
-                            <li key={index} value={data._id}>{data.name} </li>
-                        )
-                            )}
+                            <tbody>
+                                {this.props.venues.map((data,index)=>(
+                                <tr key ={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{data.name}</td>
+     
+                                </tr>
+                                ))}
+                            </tbody>
+                        </Table>
 
-                        </ul>
                         </Col>
                         </Row>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>
                         <Col sm="6">
-                        <ul>
-                            {this.props.users.map((data, index)=>(
-                                <li key={index}>{data.firstname}  {data.lastname} </li>
-                            ))}
+                        <Table hover>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                            </tr>
+                            </thead>
 
-                        </ul>
-                        
+                            <tbody>
+                                {this.props.users.map((data, index)=>(
+                                <tr key ={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{data.firstname}</td>
+                                <td>{data.lastname}</td>
+     
+                                </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+
                         </Col>
                         </Row>
                     </TabPane>
                     <TabPane tabId="3">
                         <Row>
                         <Col sm="12">
-                        <Table>
+                        <Table hover>
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -157,7 +183,25 @@ render(){
                     <TabPane tabId="4">
                         <Row>
                         <Col sm="12">
-                            <h4>Tab 4 Contents</h4>
+                        <Table hover>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Reviewed Status</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                {this.props.timesheets.map((data, index)=>(
+                                <tr key ={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{data.inReview}</td>
+                                <td>{data.date} </td>      
+                                </tr>
+                                ))}
+                            </tbody>
+                        </Table>
                         </Col>
                         </Row>
                     </TabPane>
