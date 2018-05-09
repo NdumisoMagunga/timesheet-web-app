@@ -63,7 +63,7 @@ render(){
             </Jumbotron>
 
             <Container>
-            <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o" style ={{alignSelf:"flex-end"}}/>}  label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+            <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
                
                 <Nav tabs>
                     <NavItem>
@@ -163,29 +163,14 @@ render(){
                     </TabPane>
                 </TabContent>
 
-                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
-
-                                <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
+                <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
                     <Form method="PUT" action="/api/assign-user" >
 
                     <FormGroup>
-                        <Label for="venuePicker">SELECT USER</Label>
-                        <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="user" placeholder="select user" required={true}>
-                        
-                        {this.props.users.map((data,index)=>(
-                            <option key={index} value={data._id}>{data.firstname} {data.lastname}</option>
-                        )
-
-                    )}
-                        </Input>
-                    </FormGroup>
-
-
-                    <FormGroup>
                         <Label for="venuePicker">SELECT VENUE</Label>
-                        <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="venuePicker" placeholder="select venue" required={true}>
+                        <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="venue" id="venuePicker" placeholder="select venue" required={true}>
                         
                         {this.props.venues.map((data,index)=>(
                             <option key={index} value={data._id}>{data.name}</option> 
@@ -195,6 +180,17 @@ render(){
                         </Input>
                     </FormGroup>
 
+                    <FormGroup>
+                        <Label for="userPicker">SELECT USER</Label>
+                        <Input type="select" onChange={(e)=>{this.setState({user: e.target.value})}} name="user" id="userPicker" placeholder="select user" required={true}>
+                        
+                        {this.props.users.map((data,index)=>(
+                            <option key={index} value={data._id}>{data.firstname} {data.lastname}</option>
+                        )
+
+                    )}
+                        </Input>
+                    </FormGroup>
                
                     <FormGroup>
                     <RaisedButton icon={<FontIcon className="fa fa-paste"/>} type="submit" label="Assign"  labelStyle={{fontWeight:"600"}}/>
