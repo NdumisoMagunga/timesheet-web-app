@@ -1,6 +1,4 @@
-import { FETCH_USER,MY_TIMESHEETS, FETCH_TIMESHEETS, FETCH_USERS} from './types';
-
-
+import { FETCH_USER,MY_TIMESHEETS, FETCH_TIMESHEETS, FETCH_USERS, FETCH_VENUES} from './types';
 
 export const  fetchUser =  () => async dispatch => {
     const res = await fetch('/api/get-current-user', {credentials: 'include'});
@@ -8,7 +6,6 @@ export const  fetchUser =  () => async dispatch => {
     dispatch({type: FETCH_USER, payload: data.user});
 
 };
-
 
 export const CheckIn =(obj) => async dispatch =>{
     const res = await fetch('/api/time-in', {
@@ -23,7 +20,7 @@ export const CheckIn =(obj) => async dispatch =>{
 
     myTimesheets(obj.user);
 
-}
+};
 
 export const CheckOut =(obj) => async disptach =>{
     const res = await fetch('/api/time-out', {
@@ -37,8 +34,7 @@ export const CheckOut =(obj) => async disptach =>{
     const data = await res.json();
 
     myTimesheets(obj.user);
-}
-
+};
 
 export const myTimesheets = (id) => async dispatch =>{
     const res = await fetch('/api/my-timesheet/'+ id, {credentials: 'include'});
@@ -46,16 +42,26 @@ export const myTimesheets = (id) => async dispatch =>{
     dispatch({type: MY_TIMESHEETS, payload: data});
 
 
-}
+};
 
 export const fetchTimesheets = () => async dispatch => {
     const res = await fetch('/api/timesheets');
     const data = await res.json();
     dispatch({type: FETCH_TIMESHEETS, payload: data});
-} 
+};
+
+
 export const  fetchUsers =  () => async dispatch => {
     const res = await fetch('/api/users');
     const data = await res.json();
     dispatch({type: FETCH_USERS, payload: data});
+
+};
+
+export const  fetchVenues =  () => async dispatch => {
+    const res = await fetch('/api/venue');
+    const data = await res.json();
+    console.log('venues', data);
+    dispatch({type: FETCH_VENUES, payload: data});
 
 };

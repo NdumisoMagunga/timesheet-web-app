@@ -17,6 +17,7 @@ class AdminCentral extends Component {
         this.state = {
           activeTab: '1',
           isOpen: false,
+          venue: this.props.venues.name,
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -30,7 +31,8 @@ class AdminCentral extends Component {
 
     componentDidMount(){
         this.props.fetchTimesheets();
-         this.props.fetchUsers();
+        this.props.fetchUsers();
+        this.props.fetchVenues();
     }
 
 
@@ -101,8 +103,8 @@ render(){
                         <Col sm="12">
                         <ul>
 
-                            {this.props.auth.venues.map((venue,index)=>(
-                            <li key={index} value={venue._id}>{venue.name} </li>
+                            {this.props.venues.map((data,index)=>(
+                            <li key={index} value={data._id}>{data.name} </li>
                         )
                             )}
 
@@ -145,16 +147,16 @@ render(){
                     </TabPane>
                 </TabContent>
 
-                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+                <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
 
                                 <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
-                    <Form  >
+                    <Form method="PUT" action="/api/assign-user" >
 
                     <FormGroup>
                         <Label for="venuePicker">SELECT USER</Label>
-                        <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="venuePicker" placeholder="select venue" required={true}>
+                        <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="user" placeholder="select user" required={true}>
                         
                         {this.props.users.map((data,index)=>(
                             <option key={index} value={data._id}>{data.firstname} {data.lastname}</option>
@@ -169,8 +171,8 @@ render(){
                         <Label for="venuePicker">SELECT VENUE</Label>
                         <Input type="select" onChange={(e)=>{this.setState({venue: e.target.value})}} name="email" id="venuePicker" placeholder="select venue" required={true}>
                         
-                        {this.props.auth.venues.map((venue,index)=>(
-                            <option key={index} value={venue._id}>{venue.name} </option>
+                        {this.props.venues.map((data,index)=>(
+                            <option key={index} value={data._id}>{data.name}</option> 
                         )
 
                     )}
@@ -179,7 +181,7 @@ render(){
 
                
                     <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-book-o"/>} onClick={this.handleSubmit} label="Assign"  labelStyle={{fontWeight:"600"}}/>
+                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} type="submit" label="Assign"  labelStyle={{fontWeight:"600"}}/>
                     </FormGroup>
              </Form>
                     
@@ -195,11 +197,12 @@ render(){
 }
 
 }
-function mapStateToProps({auth, timesheets,users}){
+function mapStateToProps({auth, timesheets,users, venues}){
     return {
         auth,
         timesheets,
-        users
+        users,
+        venues,
         
     }
 }
