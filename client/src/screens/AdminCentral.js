@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import * as actions from '../actions'
 import {connect} from 'react-redux';
 import classnames from 'classnames';
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 
 class AdminCentral extends Component {
@@ -17,14 +19,23 @@ class AdminCentral extends Component {
         this.state = {
           activeTab: '1',
           isOpen: false,
+          isOpen1:false
         };
 
         this.toggleModal = this.toggleModal.bind(this);
+        this. toggleVenueModal1 = this.toggleVenueModal1.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
       }
 
     toggleModal(){
         this.setState({
             isOpen: !this.state.isOpen
+        })
+    }
+
+    toggleVenueModal1(){
+        this.setState({
+            isOpen1: !this.state.isOpen1
         })
     }
 
@@ -43,6 +54,15 @@ class AdminCentral extends Component {
         }
       }
 
+      handleSubmit(){
+          this.setState(
+              {
+                  isOpen1: false,
+                  isOpen: false
+                 
+              }
+          )
+      }
 
 render(){
     return (
@@ -59,6 +79,8 @@ render(){
                     </div>
                 </div>
             </Jumbotron>
+
+            <RaisedButton onClick={this.toggleVenueModal1} icon={<FontIcon className="fa fa-paste"/>} label="Add Venue" labelStyle={{fontWeight:"600"}} primary={true} />
 
             <Container>
                 <Nav tabs>
@@ -129,7 +151,7 @@ render(){
                         <ul>
 
                             {this.props.timesheets.map((data, index)=>(
-                                <li key={index}>{data.email} {data.timeIn} {data.timeOut} {data.date} {data.venue} </li>
+                                <li key={index}>{data.firstname} {data.timeIn} {data.timeOut} {data.date} {data.venue} </li>
                             ))}
 
                         </ul>
@@ -147,7 +169,7 @@ render(){
 
                 <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
 
-                                <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
+                    <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
                     <Form  >
@@ -180,6 +202,35 @@ render(){
                
                     <FormGroup>
                     <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={this.handleSubmit} label="Assign"  labelStyle={{fontWeight:"600"}} primary={true}/>
+                    </FormGroup>
+             </Form>
+                    
+                    </ModalBody>
+                    <ModalFooter></ModalFooter>
+                </Modal>
+
+                <Modal  isOpen={this.state.isOpen1} toggle={this.toggleVenueModal1}  backdrop={true}>
+                    <ModalHeader>Add New Venue </ModalHeader>
+                    <ModalBody>
+                    <Form  method="POST" action="/api/venue">
+
+                    <FormGroup>
+                        <Label for="Address">Enter Address</Label>
+                        <Input type="text"  onChange={(e)=> {this.setState({address:e.target.value})}} name="address" id="address" placeholder="Enter Address" required={true}></Input>
+                    </FormGroup>
+
+                     <FormGroup>
+                        <Label for="venue">Enter Venue-Name</Label>
+                        <Input type="text"  onChange={(e)=> {this.setState({name:e.target.value})}} name="venue-name" id="venue" placeholder="Enter venue name" required={true}></Input>
+                    </FormGroup>
+
+                     <FormGroup>
+                        <Label for="Address">Enter Location</Label>
+                        <Input type="text"  onChange={(e)=> {this.setState({location:e.target.value})}} name="location" id="location" placeholder="Enter location" required={true}></Input>
+                    </FormGroup>
+
+                    <FormGroup>
+                    <RaisedButton type="submit" icon={<FontIcon className="fa fa-paste"/>}  label="Add Venue"  labelStyle={{fontWeight:"600"}} primary={true}/>
                     </FormGroup>
              </Form>
                     
