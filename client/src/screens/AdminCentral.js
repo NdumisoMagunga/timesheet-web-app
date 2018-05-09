@@ -19,8 +19,7 @@ class AdminCentral extends Component {
         this.state = {
           activeTab: '1',
           isOpen: false,
-          isOpen1:false,
-          venue: this.props.venues.name,
+          isOpen1:false
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -233,7 +232,6 @@ render(){
 
                     <FormGroup>
                     <RaisedButton type="submit" icon={<FontIcon className="fa fa-paste"/>}  label="Add Venue"  labelStyle={{fontWeight:"600"}} primary={true}/>
-                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} type="submit" label="Assign"  labelStyle={{fontWeight:"600"}}/>
                     </FormGroup>
              </Form>
                     
