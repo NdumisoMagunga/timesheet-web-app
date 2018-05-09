@@ -9,7 +9,7 @@ router.post('/venue', (req,res,next)=>{
     console.log('venue', req.body)
    let newVenue = new Venue({
        address: req.body.address,
-      // location: [req.body.longitude,req.body.latitude],
+    //    location: [req.body.longitude,req.body.latitude],
        altitude: req.body.altitude,
        name: req.body.name
    })

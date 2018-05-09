@@ -229,55 +229,6 @@ calcDuration({date,timeIn,timeOut}){
             
             ) :null} 
             </Paper>
-
-          
-        {/*    <Table style={{marginBottom:50}}>
-            <TableHeader>
-            <TableRow>
-            <TableHeaderColumn>Date</TableHeaderColumn>
-            <TableHeaderColumn>Location</TableHeaderColumn>
-            <TableHeaderColumn>Checked-In (Time)</TableHeaderColumn>
-            <TableHeaderColumn>Checked-Out (Time)</TableHeaderColumn>
-            <TableHeaderColumn>Duration</TableHeaderColumn>
-            <TableHeaderColumn>Action(s)</TableHeaderColumn>
-            </TableRow>
-            </TableHeader>
-            <TableBody>
-            {this.props.mysheets ? 
-                this.props.mysheets.map((shift,index)=> {
-                    if (!shift.isActive){
-                        return (
-                            <TableRow selectable={false}>
-                            <TableRowColumn>{shift.date}</TableRowColumn>
-                            <TableRowColumn>{shift.venue.name}</TableRowColumn>
-                            <TableRowColumn>{shift.timeIn}</TableRowColumn>
-                            <TableRowColumn>{shift.timeOut}</TableRowColumn>
-                            <TableRowColumn>{this.calcDuration(shift)}</TableRowColumn>
-                             <TableRowColumn><RaisedButton onClick={ ()=> {
-                                                                this.setData(shift);
-                                                                this.reviewToggle()
-
-                                                            }} 
-                                                            icon={<FontIcon style={{fontSize:11}} className="fa fa-paste"/>} label="Submit for Review" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8}} primary={false} /></TableRowColumn>
-                            </TableRow>
-                        )
-                    }
-                })
-               :
-                
-                (
-                    <TableRow>
-                   
-                    <TableRowColumn>no timesheets records found</TableRowColumn>
-                    
-                    </TableRow>
-
-                )}
-          
-         
-            </TableBody>
-
-            </Table>  */}
             
             </Container>
                 <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>

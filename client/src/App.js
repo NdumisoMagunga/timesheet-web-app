@@ -35,9 +35,10 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({auth}){
+function mapStateToProps({auth, timesheets}){
   return {
-    auth
+    auth,
+    timesheets
   }
 }
 
