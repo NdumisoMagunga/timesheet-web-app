@@ -188,7 +188,8 @@ render(){
                         <Table hover>
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Users</th>
+                                <th>Venue</th>
                                 <th>Time In</th>
                                 <th>Time out</th>
                                 <th>Date</th>
@@ -198,7 +199,9 @@ render(){
                             <tbody>
                                 {this.props.timesheets.map((data, index)=>(
                                 <tr key ={index}>
-                                <th scope="row">{index + 1}</th>
+                        
+                                <td>{data.user.firstname} {data.user.lastname} </td>
+                                <td>{data.venue.name} ({data.venue.address})</td>
                                 <td>{data.timeIn}</td>
                                 <td>{data.timeOut}</td>
                                 <td>{data.date} </td>      
@@ -246,7 +249,7 @@ render(){
                     <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
-                    <Form method="PUT" action="/api/assign-user" >
+                    <Form method="PUT" action="http://localhost:2000/api/assign-user" >
 
                     <FormGroup>
                         <Label for="venuePicker">SELECT VENUE</Label>
