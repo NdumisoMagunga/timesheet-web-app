@@ -17,10 +17,10 @@ router.get('/timesheets', (req,res,next)=>{
     Timesheet.find({})
     .populate("user")
     .populate("venue")
-    .exec( (err, timesheets)=>{
+    .exec((err, timesheets)=>{
         if (err) return next(err);
         res.json(timesheets)
-    });
+    })
 })
 
 router.post('/time-in', (req,res,next)=>{

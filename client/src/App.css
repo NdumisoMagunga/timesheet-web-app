@@ -26,3 +26,11 @@
   background-size: cover;
   padding: 0px !important;
 }
+
+.dashboard-jumbotron{
+  background-image: url('./assets/images/img-1.jpg');
+  height: 200px;
+  background-position: center;
+  background-size: cover;
+  padding: 0px !important;
+}

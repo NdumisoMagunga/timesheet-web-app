@@ -1,22 +1,95 @@
 import React, {Component} from 'react';
-import {Jumbotron, Row,Col, Container,TabContent, TabPane, Nav,Table, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
+import {Jumbotron, Row,Col,Button, Container, TabPane, Nav,Table, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
     Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
 } from 'reactstrap';
 import {FontIcon, RaisedButton} from 'material-ui';
-import { Grid,Button, Divider, Icon } from 'semantic-ui-react'
+//import { Grid,Button, Divider, Icon } from 'semantic-ui-react'
 import * as moment from 'moment';
 import * as actions from '../actions'
 import {connect} from 'react-redux';
 import classnames from 'classnames';
+import Tabs from 'react-responsive-tabs';
 
-const bstyles = {
-    button: {
-      margin: 12,
-      left: 12,
-      alignSelf: 'center'
-    }}
+
+
+import VenueTable from '../components/Admin/VenueTable';
+import UserTable from '../components/Admin/UserTable';
+import TimesheetTable from '../components/Admin/TimesheetTable';
+import ReviewableSessions from '../components/Admin/ReviewableSessions';
+
+                               
+
+
+
+
+
+const blockElements = {
+    content: 'tabs-content',
+    panel: 'tabs-panel',
+    label: 'tabs-title'
+}
 
 class AdminCentral extends Component {
+
+     tabsObject =[{
+        name:'Venues',
+         description:'This is where you will manage Venues (Coming soon)',
+         mainComponent: this.getVenuesTab()
+        },
+        {
+        name:'Users',
+        description:'This is where you will manage Users (Coming soon)',
+        mainComponent: this.getUsersTab()
+        },
+        {
+        name:'All Time sessions' ,
+        description:'This is where you will manage Active Sessions (Coming soon)',
+        mainComponent:this.getTimesheetTab()
+        },
+        {
+        name:'Submitted For Review',
+        description:'This is where you will manage reviewable time sheets (Coming soon)',
+        mainComponent:this.getReviewTab()
+        }]
+
+       
+        getReviewTab(){
+            if (this.props.timesheets.length > 0){
+                return (
+                    <ReviewableSessions timesheets ={this.props.timesheets.filter((shift)=> shift.inReview == true )} />
+                )
+            }
+
+        }
+
+        getUsersTab(){
+            if (this.props.users.length > 0){
+                return (<UserTable users={this.props.users}/>)
+            }
+        }
+
+
+        getVenuesTab(){
+            if (this.props.venues.length > 0){
+                return (
+                   (<VenueTable venues ={this.props.venues.length > 0 ? this.props.venues:[{}]}/>)
+                )
+            }
+           
+        }
+          
+        getTimesheetTab(){
+            if (this.props.timesheets.length > 0){
+                return (
+                    <TimesheetTable timesheets ={this.props.timesheets} />
+                )
+            }
+        }
+        
+
+        
+
+
     constructor(props) {
         super(props);
     
@@ -25,7 +98,8 @@ class AdminCentral extends Component {
           activeTab: '1',
           addVenue: false,
           isOpen: false,
-          venue: this.props.venues.name,
+          user: null,
+          venue: null,
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -45,11 +119,37 @@ class AdminCentral extends Component {
     }
 
     componentDidMount(){
-        this.props.fetchTimesheets();
-        this.props.fetchUsers();
-        this.props.fetchVenues();
+
     }
 
+    //    handleSubmit(){
+    //     let obj ={
+    //         "venue": this.state.venue,
+    //         "user": this.state.user,
+    //     }
+    //     fetch('http://localhost:2000/api/assign-user', {
+    //     method: 'PUT',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },        
+    //     body: JSON.stringify(obj),
+
+    // }).then((response)  => {
+    //     console.log('response', response)
+        
+
+    //     if (response.status == 200){
+            
+    //         notify.show("Successfully assigned a user!", "success", 5000);
+    //         return response.JSON();
+            
+    //     }
+
+    // }).catch(err => err);
+    // }
+
+
+    
 
 
       toggle(tab) {
@@ -59,16 +159,19 @@ class AdminCentral extends Component {
           });
         }
       }
+    
 
 
 render(){
+    
     return (
         <div>
-            <Jumbotron className="welcome-jumbotron" >
+      
+            <Jumbotron className="dashboard-jumbotron" >
                 <div className="cover">
                     <div className="container">
                     <div className="row">
-                        <div className="" style={{padding:90}}>
+                        <div className="" style={{padding:90, paddingTop:50}}>
                             <h1 className="orange" style={{fontWeight:"300"}}>Welcome, {this.props.auth.firstname} {this.props.auth.lastname}</h1>
                             <p className="lead white-text">Managing Timesheets made practical.</p>
                         </div>
@@ -77,23 +180,24 @@ render(){
                 </div>
             </Jumbotron>
 
-           
+           <Container>
 
-            <Container>
-                    <Button basic color='orange' onClick={this.toggleModal} floated='right'>
-                    <Icon name='home' />
-                     Assign Venue
-                
-                    </Button>
-                    <Button basic color='orange' onClick={this.toggleAddVenue} floated='left'>
-                    <Icon name='plus' />
-                    Add Venue
-                    </Button>
-                
-                <Divider hidden="true"/>
-                <Divider hidden="true"/>
-                <Divider hidden="true"/>
-                
+           <Tabs items={
+             this.tabsObject.map((tab,index) => ({
+                key: index, // Optional. Equals to tab index if this property is omitted
+                tabClassName: 'tab', // Optional
+                panelClassName: 'panel', // Optional
+                title: tab.name,
+                getContent: () => tab.mainComponent,
+              }))
+           }  
+           
+           showInkBar={true}/>
+
+
+           {/* 
+            <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o" style ={{alignSelf:"flex-end"}}/>}  label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+               
                 <Nav tabs>
                     <NavItem>
                         <NavLink
@@ -134,17 +238,10 @@ render(){
                         <Col sm="12">
                         <Table hover>
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Venue</th>
-                                
-                            </tr>
                             </thead>
-
                             <tbody>
                                 {this.props.venues.map((data,index)=>(
                                 <tr key ={index}>
-                                <th scope="row">{index + 1}</th>
                                 <td>{data.name}</td>
                                 <td><Button basic color='orange' style={{borderRadius: 30}}>Details</Button></td>
                                 </tr>
@@ -161,7 +258,6 @@ render(){
                         <Table hover>
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
                             </tr>
@@ -170,7 +266,6 @@ render(){
                             <tbody>
                                 {this.props.users.map((data, index)=>(
                                 <tr key ={index}>
-                                <th scope="row">{index + 1}</th>
                                 <td>{data.firstname}</td>
                                 <td>{data.lastname}</td>
                                 <td><Button basic color='orange' style={{borderRadius: 30}}>Details</Button></td>
@@ -222,7 +317,6 @@ render(){
                         <Table hover>
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Reviewed Status</th>
                                 <th>Date</th>
                             </tr>
@@ -231,8 +325,7 @@ render(){
                             <tbody>
                                 {this.props.timesheets.map((data, index)=>(
                                 <tr key ={index}>
-                                <th scope="row">{index + 1}</th>
-                                <td>{data.inReview}</td>
+                                <td>{data.inReview}</td> 
                                 <td>{data.date} </td>      
                                 </tr>
                                 ))}
@@ -249,7 +342,7 @@ render(){
                     <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
-                    <Form method="PUT" action="http://localhost:2000/api/assign-user" >
+                    <Form>
 
                     <FormGroup>
                         <Label for="venuePicker">SELECT VENUE</Label>
@@ -276,7 +369,7 @@ render(){
                     </FormGroup>
                
                     <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} type="submit" label="Assign"  labelStyle={{fontWeight:"600"}}/>
+                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={ () => this.handleSubmit() } label="Assign"  labelStyle={{fontWeight:"600"}}/>
                     </FormGroup>
                     </Form>
                     
@@ -313,7 +406,7 @@ render(){
                     </ModalBody>
                     <ModalFooter></ModalFooter>
                 </Modal>
-
+                */}
             </Container>
 
             
