@@ -250,11 +250,11 @@ render(){
 
                      <FormGroup>
                         <Label for="Address">Enter Location</Label>
-                        <Input type="text"  onChange={(e)=> {this.setState({location:e.target.value})}} name="location" id="location" placeholder="Enter location" required={true}></Input>
+                        <Input type="address"  onChange={(e)=> {this.setState({location:e.target.value})}} name="location" id="location" placeholder="Enter location" required={true}></Input>
                     </FormGroup>
 
                     <FormGroup>
-                    <RaisedButton type="submit" icon={<FontIcon className="fa fa-paste"/>}  label="Add Venue"  labelStyle={{fontWeight:"600"}} primary={true}/>
+                    <RaisedButton type="submit" icon={<FontIcon className="fa fa-home"/>}  label="Add Venue"  labelStyle={{fontWeight:"600"}} primary={true}/>
                     </FormGroup>
                     </Form>
                     
