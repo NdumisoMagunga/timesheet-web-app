@@ -71,10 +71,12 @@ router.get('/get-current-user', (req,res,next)=>{
 })
 
 router.get('/users', (req,res,next)=>{
-    User.find({}, (err, users)=>{
+    User.find({})
+    .populate('venues')
+    .exec((err, users)=>{
         if (err) return next(err);
         res.json(users)
-    });
+    })
 })
 
 // //For Test Purposes

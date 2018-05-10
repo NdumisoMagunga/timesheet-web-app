@@ -14,8 +14,17 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import * as actions from './actions';
 import {connect} from 'react-redux';
-
+import 'react-responsive-tabs/styles.css';
 class App extends Component {
+
+  componentDidMount(){
+    
+        this.props.fetchVenues();
+        this.props.fetchUsers();
+        this.props.fetchTimesheets();
+      
+  
+  }
   render() {
     return (
       <MuiThemeProvider>

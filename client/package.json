@@ -13,11 +13,8 @@
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
-<<<<<<< HEAD
     "react-tabbordion": "^1.0.4",
-=======
     "react-table": "^6.8.2",
->>>>>>> d75f3c9360e53e7e38f009848d534affaad567cd
     "reactstrap": "^5.0.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
