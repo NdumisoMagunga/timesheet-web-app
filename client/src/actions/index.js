@@ -61,7 +61,6 @@ export const  fetchUsers =  () => async dispatch => {
 export const  fetchVenues =  () => async dispatch => {
     const res = await fetch('/api/venue');
     const data = await res.json();
-    console.log('venues', data);
     dispatch({type: FETCH_VENUES, payload: data});
 
 };
