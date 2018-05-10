@@ -188,7 +188,7 @@ calcDuration({date,timeIn,timeOut}){
                               },
                                 {
                                     Header: "Venue",
-                                    id:'venue',
+                                     id:'venue',
                                     accessor: d => d.venue.name
                                   }
                               ,

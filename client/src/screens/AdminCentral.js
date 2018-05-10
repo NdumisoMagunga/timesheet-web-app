@@ -146,7 +146,7 @@ render(){
                                 <tr key ={index}>
                                 <th scope="row">{index + 1}</th>
                                 <td>{data.name}</td>
-     
+                                <td><Button basic color='orange' style={{borderRadius: 30}}>Details</Button></td>
                                 </tr>
                                 ))}
                             </tbody>
@@ -173,7 +173,7 @@ render(){
                                 <th scope="row">{index + 1}</th>
                                 <td>{data.firstname}</td>
                                 <td>{data.lastname}</td>
-     
+                                <td><Button basic color='orange' style={{borderRadius: 30}}>Details</Button></td>
                                 </tr>
                                 ))}
                             </tbody>
