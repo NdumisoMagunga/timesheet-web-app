@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Jumbotron, Row,Col, Container,TabContent, TabPane, Nav,Table, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
+import {Alert, Jumbotron, Row,Col, Container,TabContent, TabPane, Nav,Table, NavItem, NavLink, Card, CardTitle, CardText,Form, FormGroup,Input,
     Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
 } from 'reactstrap';
 import {FontIcon, RaisedButton} from 'material-ui';
@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import * as actions from '../actions'
 import {connect} from 'react-redux';
 import classnames from 'classnames';
+import Notifications, {notify} from 'react-notify-toast';
 
 const bstyles = {
     button: {
@@ -25,7 +26,8 @@ class AdminCentral extends Component {
           activeTab: '1',
           addVenue: false,
           isOpen: false,
-          venue: this.props.venues.name,
+          user: null,
+          venue: null,
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -50,7 +52,32 @@ class AdminCentral extends Component {
         this.props.fetchVenues();
     }
 
+    handleSubmit(){
+        let obj ={
+            "venue": this.state.venue,
+            "user": this.state.user,
+        }
+        fetch('http://localhost:2000/api/assign-user', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(obj),
 
+    }).then((response)  => {
+        console.log('response', response)
+        
+
+        if (response.status == 200){
+            
+            notify.show("Successfully assigned a user!", "success", 5000);
+            return response.JSON();
+            
+        }
+
+    }).catch(err => err);
+    }
+    
 
       toggle(tab) {
         if (this.state.activeTab !== tab) {
@@ -77,7 +104,7 @@ render(){
                 </div>
             </Jumbotron>
 
-           
+           <Notifications />
 
             <Container>
                     <Button basic color='orange' onClick={this.toggleModal} floated='right'>
@@ -134,17 +161,10 @@ render(){
                         <Col sm="12">
                         <Table hover>
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Venue</th>
-                                
-                            </tr>
                             </thead>
-
                             <tbody>
                                 {this.props.venues.map((data,index)=>(
                                 <tr key ={index}>
-                                <th scope="row">{index + 1}</th>
                                 <td>{data.name}</td>
      
                                 </tr>
@@ -161,7 +181,6 @@ render(){
                         <Table hover>
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
                             </tr>
@@ -170,7 +189,6 @@ render(){
                             <tbody>
                                 {this.props.users.map((data, index)=>(
                                 <tr key ={index}>
-                                <th scope="row">{index + 1}</th>
                                 <td>{data.firstname}</td>
                                 <td>{data.lastname}</td>
      
@@ -222,7 +240,6 @@ render(){
                         <Table hover>
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Reviewed Status</th>
                                 <th>Date</th>
                             </tr>
@@ -231,8 +248,7 @@ render(){
                             <tbody>
                                 {this.props.timesheets.map((data, index)=>(
                                 <tr key ={index}>
-                                <th scope="row">{index + 1}</th>
-                                <td>{data.inReview}</td>
+                                <td>{data.inReview}</td> 
                                 <td>{data.date} </td>      
                                 </tr>
                                 ))}
@@ -249,7 +265,7 @@ render(){
                     <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>ASSIGN USER TO A VENUE </ModalHeader>
                     <ModalBody>
-                    <Form method="PUT" action="http://localhost:2000/api/assign-user" >
+                    <Form>
 
                     <FormGroup>
                         <Label for="venuePicker">SELECT VENUE</Label>
@@ -276,7 +292,7 @@ render(){
                     </FormGroup>
                
                     <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} type="submit" label="Assign"  labelStyle={{fontWeight:"600"}}/>
+                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={ () => this.handleSubmit() } label="Assign"  labelStyle={{fontWeight:"600"}}/>
                     </FormGroup>
                     </Form>
                     
