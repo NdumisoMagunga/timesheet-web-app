@@ -11,7 +11,7 @@ router.post('/venue', (req,res,next)=>{
        address: req.body.address,
     //    location: [req.body.longitude,req.body.latitude],
        altitude: req.body.altitude,
-       name: req.body.name
+       name: (req.body.name).toUpperCase(),
    })
 
    newVenue.save((err)=>{
@@ -72,6 +72,7 @@ router.put('/assign-user', (req,res,next)=>{
                         if (err) return next(err);
                     })
                     res.json({message:user.firstname +' '+user.lastname +' has been assgined to '+ venue.name})
+                    
                 })
             })
         }
