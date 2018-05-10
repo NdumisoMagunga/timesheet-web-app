@@ -41,7 +41,7 @@ class AddVenue extends Component{
             <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
                     <ModalHeader>Add a Venue </ModalHeader>
                     <ModalBody>
-                    <Form>
+                    <Form >
 
                     <FormGroup>
                         <Label for="Address">Enter Address</Label>
@@ -59,7 +59,7 @@ class AddVenue extends Component{
                     </FormGroup>
 
                     <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={this.handleSubmit} label="Add Venue"  labelStyle={{fontWeight:"600"}} primary={true}/>
+                    <RaisedButton icon={<FontIcon className="fa fa-home"/>} onClick={this.handleSubmit} label="Add Venue"  labelStyle={{fontWeight:"600"}} primary={true}/>
                     </FormGroup>
              </Form>
                     
