@@ -3,19 +3,14 @@ import {Jumbotron, Row,Col,Button, Container, TabPane, Nav,Table, NavItem, NavLi
     Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
 } from 'reactstrap';
 import {FontIcon, RaisedButton} from 'material-ui';
-import { Grid,Button, Divider, Icon } from 'semantic-ui-react'
+//import { Grid,Button, Divider, Icon } from 'semantic-ui-react'
 import * as moment from 'moment';
 import * as actions from '../actions'
 import {connect} from 'react-redux';
 import classnames from 'classnames';
 import Tabs from 'react-responsive-tabs';
 
-const bstyles = {
-    button: {
-      margin: 12,
-      left: 12,
-      alignSelf: 'center'
-    }}
+
 
 import VenueTable from '../components/Admin/VenueTable';
 import UserTable from '../components/Admin/UserTable';
@@ -127,31 +122,33 @@ class AdminCentral extends Component {
 
     }
 
-    handleSubmit(){
-        let obj ={
-            "venue": this.state.venue,
-            "user": this.state.user,
-        }
-        fetch('http://localhost:2000/api/assign-user', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },        
-        body: JSON.stringify(obj),
+    //    handleSubmit(){
+    //     let obj ={
+    //         "venue": this.state.venue,
+    //         "user": this.state.user,
+    //     }
+    //     fetch('http://localhost:2000/api/assign-user', {
+    //     method: 'PUT',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },        
+    //     body: JSON.stringify(obj),
 
-    }).then((response)  => {
-        console.log('response', response)
+    // }).then((response)  => {
+    //     console.log('response', response)
         
 
-        if (response.status == 200){
+    //     if (response.status == 200){
             
-            notify.show("Successfully assigned a user!", "success", 5000);
-            return response.JSON();
+    //         notify.show("Successfully assigned a user!", "success", 5000);
+    //         return response.JSON();
             
-        }
+    //     }
 
-    }).catch(err => err);
-    }
+    // }).catch(err => err);
+    // }
+
+
     
 
 
@@ -162,6 +159,7 @@ class AdminCentral extends Component {
           });
         }
       }
+    
 
 
 render(){
