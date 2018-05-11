@@ -9,7 +9,7 @@ import * as actions from '../actions'
 import {connect} from 'react-redux';
 import classnames from 'classnames';
 import Tabs from 'react-responsive-tabs';
-
+import { red50, red900, white } from 'material-ui/styles/colors';
 
 
 import VenueTable from '../components/Admin/VenueTable';
@@ -193,7 +193,12 @@ render(){
            }  
            
            showInkBar={true}/>
-
+           <Container>
+           <RaisedButton onClick={ ()=> {
+                        }} 
+                        icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>} label="Edit" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} primary={false} buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} />
+           </Container>
+         
 
            {/* 
             <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-book-o" style ={{alignSelf:"flex-end"}}/>}  label="Assign Venue" labelStyle={{fontWeight:"600"}} primary={true} />
