@@ -158,13 +158,19 @@ render(){
            }  
            
            showInkBar={true}/>
-           
+         
+           <Row>
+            <Col >
           <AddVenue />
-           
-           <AssignVenue />
-            
-            </Container>
+          </Col>
 
+           <Col >
+           <AssignVenue />
+           </Col>
+           </Row>
+           </Container>
+           
+            
             
             
         </div>
