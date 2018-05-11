@@ -31,7 +31,17 @@ class AddVenue extends Component{
 
         return(
             <Container>
-                 <RaisedButton onClick={this.toggleModal} icon={<FontIcon className="fa fa-paste"/>} label="Add Venue" labelStyle={{fontWeight:"600"}} primary={true} />
+                 <RaisedButton 
+                    onClick={this.toggleModal} 
+                    icon={<FontIcon style={{fontSize:11}} 
+                    className="fa fa-pencil"/>} 
+                    label="Add Venue" 
+                    style={{fontSize:11}} 
+                    labelStyle={{fontWeight:"600", 
+                    fontSize:8, color: 'white'}} 
+                    primary={false} 
+                    buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} 
+                />
                  <Modal  isOpen={this.state.isOpen} toggle={this.toggleModal}  backdrop={true}>
                     <ModalHeader>Add New Venue </ModalHeader>
                     <ModalBody> 
