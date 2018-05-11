@@ -1,6 +1,6 @@
 
 module.exports={
-    // "database":'mongodb://localhost:27017/itthynk-timesheet',
+    //"database":'mongodb://localhost:27017/itthynk-timesheet',
     "database":'mongodb://app:Passw0rd@ds155299.mlab.com:55299/itthynk-timesheet',
     "port":process.env.PORT || 2000,
     "secret":'Pa$$w0rd',
