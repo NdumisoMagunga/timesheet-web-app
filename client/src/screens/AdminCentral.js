@@ -16,6 +16,7 @@ import VenueTable from '../components/Admin/VenueTable';
 import UserTable from '../components/Admin/UserTable';
 import TimesheetTable from '../components/Admin/TimesheetTable';
 import ReviewableSessions from '../components/Admin/ReviewableSessions';
+import AddVenue from '../components/addVenueModal';
 
                                
 
@@ -56,7 +57,7 @@ class AdminCentral extends Component {
         getReviewTab(){
             if (this.props.timesheets.length > 0){
                 return (
-                    <ReviewableSessions timesheets ={this.props.timesheets.filter((shift)=> shift.inReview == true )} />
+                    <ReviewableSessions timesheets ={this.props.timesheets.filter((shift)=> shift.inReview === true )} />
                 )
             }
 
@@ -193,11 +194,8 @@ render(){
            }  
            
            showInkBar={true}/>
-           <Container>
-           <RaisedButton onClick={ ()=> {
-                        }} 
-                        icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>} label="Edit" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} primary={false} buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} />
-           </Container>
+           
+          <AddVenue />
          
 
            {/* 
