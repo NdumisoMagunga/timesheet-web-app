@@ -4,7 +4,7 @@ import {Jumbotron, Row,Col,Button, Container,TabContent, TabPane, Nav, NavItem, 
 } from 'reactstrap';
 import {FontIcon, RaisedButton} from 'material-ui';
 import * as moment from 'moment';
-import * as actions from '../actions'
+import * as actions from '../../actions'
 import {connect} from 'react-redux';
 import classnames from 'classnames';
 

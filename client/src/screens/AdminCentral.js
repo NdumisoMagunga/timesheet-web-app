@@ -3,6 +3,7 @@ import {Jumbotron, Row,Col,Button, Container, TabPane, Nav,Table, NavItem, NavLi
     Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
 } from 'reactstrap';
 import {FontIcon, RaisedButton} from 'material-ui';
+
 //import { Grid,Button, Divider, Icon } from 'semantic-ui-react'
 import * as moment from 'moment';
 import * as actions from '../actions'
@@ -15,7 +16,7 @@ import VenueTable from '../components/Admin/VenueTable';
 import UserTable from '../components/Admin/UserTable';
 import TimesheetTable from '../components/Admin/TimesheetTable';
 import ReviewableSessions from '../components/Admin/ReviewableSessions';
-import AddVenue from '../components/addVenueModal';
+import AddVenue from '../components/Admin/addVenueModal'; 
 import AssignVenue from '../components/Admin/AssignVenue';
 
 
@@ -153,26 +154,24 @@ render(){
            }  
            
            showInkBar={true}/>
-         
-           <Row>
-            <Col >
-          <AddVenue />
-          </Col>
 
-           <Col >
-           <AssignVenue />
-           </Col>
-           </Row>
-           </Container>
-           
-            
-            
-            
+           <Row>
+               <Col>
+                    <AddVenue />
+               </Col>
+               <Col>
+                    <AssignVenue />
+               </Col>
+            </Row>
+
+            </Container>
+
         </div>
     )
 }
+};
 
-}
+
 function mapStateToProps({auth, timesheets,users, venues}){
     return {
         auth,
