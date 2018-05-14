@@ -43,6 +43,7 @@ setSelectedVenue(d){
             headerStyle={{backgroundColor:'white'}}
 
             data={this.props.venues}
+            
             columns={[
               {
                 columns: [
