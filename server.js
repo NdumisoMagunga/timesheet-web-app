@@ -4,7 +4,8 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 const flash = require('express-flash');
 const cors = require('cors');
-
+const path = require('path');
+const helmet = require('helmet');
 var cookieSession = require('cookie-session');
 
 //routes
@@ -25,6 +26,7 @@ mongoose.connect(secret.database, function(err) {
 });
 
 // Middleware
+app.use(helmet());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,7 +34,7 @@ app.use(cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [secret.cookieKey]
   }));
-//app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use(flash());
 app.use(cors());
@@ -42,10 +44,10 @@ app.use(passport.session())
 
 app.use('/api',[authRoutes,venueRoutes,timesheetRoutes]);
 
- /* app.get('*',(req,res,next)=>{
+ app.get('*',(req,res,next)=>{
    res.sendFile(path.join(__dirname + '/client/build/index.html'));
 
-  }) */
+  });
   
 
 

@@ -35,20 +35,20 @@ render(){
                         <h4>Edit Profile</h4>
                             <FormGroup row> 
                                 <Col sm= "10">
-                                    <Input type="text" name="firstname" id="firstname"placeholder={this.props.auth.firstname}  />  
+                                    <Input type="text" onChange={(e)=>{this.setState({firstname: e.target.value})}} name="firstname" id="firstname"placeholder={this.props.auth.firstname}  />  
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
                                 <Col sm= "10">
-                                    <Input type="text" name="lastname" id="lastname" placeholder={this.props.auth.lastname}/> 
+                                    <Input type="text"  onChange={(e)=>{this.setState({lastname: e.target.value})}} name="lastname" id="lastname" placeholder={this.props.auth.lastname}/> 
                                     </Col>
                             </FormGroup>
                             <FormGroup row>
                                 <Col sm= "10">
-                                    <Input type="email" name="email" id="email" placeholder= {this.props.auth.email}/>
+                                    <Input type="email" onChange={(e)=>{this.setState({email: e.target.value})}} name="email" id="email" placeholder= {this.props.auth.email}/>
                                 </Col> 
                             </FormGroup>
-                            <Button color="success">Edit Profile</Button>
+                            <Button color="success" type="submit" >Edit Profile</Button>
                     </Form>
                 </Grid.Column>
                   

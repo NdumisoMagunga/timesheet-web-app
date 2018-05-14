@@ -24,6 +24,7 @@
     "moment": "^2.22.1",
     "mongo": "^0.1.0",
     "mongoose": "^5.0.15",
+    "helmet": "^3.11.0",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
