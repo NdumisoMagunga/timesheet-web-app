@@ -131,9 +131,9 @@ class UserTable extends Component{
          
             {this.state.selectedUser ? (
                        <div>
-                           <h4>{ this.state.selectedUser.firstname}  { this.state.selectedUser.lastname}</h4>
-                           <h6>{ this.state.selectedUser.email}</h6><br/>
-                          
+                           <h4>Name : { this.state.selectedUser.firstname}  { this.state.selectedUser.lastname}</h4>
+                           <h6>Email : { this.state.selectedUser.email}</h6><br/>
+                           <h4>Venue(s)</h4>
                            {
                             (()=>{
                                 if(this.state.selectedUser.venues.length > 0){
