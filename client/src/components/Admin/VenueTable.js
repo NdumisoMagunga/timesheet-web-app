@@ -52,7 +52,7 @@ handleSubmit(){
   this.toggleModal();
 
   let obj ={
-      "venue": this.state.venue
+      "venue": this.state.selectedVenue._id
   }
 
   fetch('/api/update-venue/', {
@@ -76,6 +76,33 @@ handleSubmit(){
 }).catch(err => err);
 }
 
+handleRemove(){
+  this.toggleRemoveVenue();
+
+  let obj ={
+      "venue": this.state.selectedVenue._id
+  }
+
+  fetch('/api/remove-venue/', {
+  method: 'DELETE',
+  headers: {
+      'Content-Type': 'application/json'
+  },        
+  body: JSON.stringify(obj),
+
+}).then((response)  => {
+  console.log('response', response)
+  
+
+  if (response.status == 200){
+      
+      this.createNotification('success');
+      return response.JSON();
+      
+  }
+
+}).catch(err => err);
+}
   
     render(){
         return (
@@ -177,7 +204,7 @@ handleSubmit(){
                         <ModalBody>
                           <p>Are you sure you want to remove this Venue?</p>
                           <FormGroup>
-                              <RaisedButton   icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
+                              <RaisedButton icon={<FontIcon style={{fontSize:11}} onClick={ () => this.handleRemove() } className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
                           </FormGroup>
                         </ModalBody>
                         <ModalFooter></ModalFooter>
