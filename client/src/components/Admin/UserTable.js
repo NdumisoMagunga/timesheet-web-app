@@ -6,6 +6,9 @@ import {Form, FormGroup,Input,Modal,ModalBody,ModalHeader,ModalFooter, Fade, Lab
 
 import { red50, red900, white } from 'material-ui/styles/colors';
 import index from 'react-resize-detector';
+import * as moment from 'moment';
+import * as actions from '../../actions';
+import {connect} from 'react-redux'
 
 class UserTable extends Component{
     constructor(props) {
@@ -14,6 +17,7 @@ class UserTable extends Component{
         
         this.state = {
           isOpen: false,
+          RemoveUser:false,
           selectedUser:'',
 
     
@@ -21,7 +25,12 @@ class UserTable extends Component{
     
         this.toggleModal = this.toggleModal.bind(this);
         this.setSelectedUser = this.setSelectedUser.bind(this);
+        this.toggleRemoveUser = this.toggleRemoveUser.bind(this);
       }
+
+    //   componentDidMount(){
+    //     this.props.myTimesheets(this.props.selectedUser._id);
+    // }
     
     toggleModal(){
         this.setState({
@@ -29,11 +38,18 @@ class UserTable extends Component{
             
         })
     }
+    toggleRemoveUser(){
+        this.setState({
+            RemoveUser: !this.state.RemoveUser,
+            
+        })
+    }
     
     setSelectedUser(d){
       
       this.setState({
-        selectedUser:d
+        selectedUser:d,
+        
       }),()=>(console.log("users",d))
       
     }
@@ -94,7 +110,9 @@ class UserTable extends Component{
                           this.toggleModal();
                         }} 
                         icon={<FontIcon style={{fontSize:11}} className="fa fa-paste"/>} label="Datails" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} primary={false} buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} />
-                        <RaisedButton onClick={ ()=> {
+                        < RaisedButton onClick={()=>{ 
+                          this.setSelectedUser(row.value);
+                          this.toggleRemoveUser();
                         }} 
                         icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>} label="Remove" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} buttonStyle={{backgroundColor:"#cc0000", marginLeft:10}} />
                         </div>
@@ -113,9 +131,9 @@ class UserTable extends Component{
          
             {this.state.selectedUser ? (
                        <div>
-                           { this.state.selectedUser.firstname}  { this.state.selectedUser.lastname}<br/>
-                           { this.state.selectedUser.email}<br/>
-                          
+                           <h4>Name : { this.state.selectedUser.firstname}  { this.state.selectedUser.lastname}</h4>
+                           <h6>Email : { this.state.selectedUser.email}</h6><br/>
+                           <h4>Venue(s)</h4>
                            {
                             (()=>{
                                 if(this.state.selectedUser.venues.length > 0){
@@ -123,7 +141,7 @@ class UserTable extends Component{
                                 this.state.selectedUser.venues.map((venue,index)=>{
                                 {
                                     return(
-                                        <p key={index}>{venue.name}</p>
+                                        <li key={index}>{venue.name}</li>
                                 )
 
                                     }})
@@ -131,7 +149,7 @@ class UserTable extends Component{
                                 }
                                 })()
                             }
-                            
+                           
 
                        </div>
                      
@@ -141,10 +159,27 @@ class UserTable extends Component{
           </ModalBody>
           <ModalFooter></ModalFooter>
         </Modal>
+
+        <Modal  isOpen={this.state.RemoveUser} toggle={this.toggleRemoveUser}  backdrop={true}>
+            <ModalHeader icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}>Remove </ModalHeader>
+                <ModalBody>
+                    <p>Are you sure you want to remove this User?</p>
+                    <FormGroup>
+                        <RaisedButton   icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
+                    </FormGroup>
+                 </ModalBody>
+            <ModalFooter></ModalFooter>
+        </Modal>
     </div>
         )
     }
 }
+function mapStateToProps({auth, mysheets}){
+    return {
+        auth,
+        mysheets
+    }
+}
 
 
-export default UserTable;
+export default connect(mapStateToProps,actions)(UserTable);

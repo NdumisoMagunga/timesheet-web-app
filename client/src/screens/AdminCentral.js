@@ -18,7 +18,7 @@ import TimesheetTable from '../components/Admin/TimesheetTable';
 import ReviewableSessions from '../components/Admin/ReviewableSessions';
 import AddVenue from '../components/Admin/addVenueModal'; 
 import AssignVenue from '../components/Admin/AssignVenue';
-
+import TestPrint from '../components/printScreen'
 
 const blockElements = {
     content: 'tabs-content',
@@ -84,8 +84,6 @@ class AdminCentral extends Component {
         }
         
 
-        
-
 
     constructor(props) {
         super(props);
@@ -142,7 +140,9 @@ render(){
             </Jumbotron>
 
            <Container>
-
+               
+          
+            
            <Tabs items={
              this.tabsObject.map((tab,index) => ({
                 key: index, // Optional. Equals to tab index if this property is omitted
@@ -155,15 +155,17 @@ render(){
            
            showInkBar={true}/>
 
-           <Row>
+            <Row>
                <Col>
                     <AddVenue />
                </Col>
                <Col>
                     <AssignVenue />
                </Col>
+               <Col>
+               <TestPrint />
+               </Col>
             </Row>
-
             </Container>
 
         </div>

@@ -43,7 +43,7 @@ class AssignVenue extends Component {
             "user": this.state.user,
         }
 
-        fetch('http://localhost:2000/api/assign-user', {
+        fetch('/api/assign-user', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -122,6 +122,8 @@ class AssignVenue extends Component {
 
 
             </Modal>
+
+
             </div>
         );
     }

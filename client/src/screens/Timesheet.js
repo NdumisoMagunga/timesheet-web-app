@@ -271,7 +271,7 @@ calcDuration({date,timeIn,timeOut}){
                     <FormGroup>
                     {(()=>{
                         switch(this.state.venue){
-                        case null: return <h4 style={{color: 'red'}}> You need to be assigned a venue in order to start a new session</h4>;
+                        case null: return <h4 style={{color: 'red'}}> YOU NEED TO BE ASSIGNED A VENUE IN ORDER TO START A NEW SESSION</h4>;
                         default: 
                         return (
                             <RaisedButton icon={<FontIcon className="fa fa-clock-o"/>} onClick={this.handleSubmit} label="Start Tracking"  labelStyle={{fontWeight:"600"}}/>

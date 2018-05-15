@@ -4,6 +4,8 @@ import ReactTable from "react-table";
 import {Form, FormGroup,Input,Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
 } from 'reactstrap';
 import { red50, red900, white } from 'material-ui/styles/colors';
+import * as actions from '../../actions';
+import {connect} from 'react-redux';
 
 class VenueTable extends Component{
   constructor(props) {
@@ -12,11 +14,13 @@ class VenueTable extends Component{
     
     this.state = {
       isOpen: false,
+      RemoveVenue:false,
       selectedVenue:false,
 
     };
 
     this.toggleModal = this.toggleModal.bind(this);
+    this.toggleRemoveVenue = this.toggleRemoveVenue.bind(this);
   }
 
 toggleModal(){
@@ -24,6 +28,12 @@ toggleModal(){
         isOpen: !this.state.isOpen,
         
     })
+}
+toggleRemoveVenue(){
+  this.setState({
+    RemoveVenue: !this.state.RemoveVenue,
+      
+  })
 }
 
 setSelectedVenue(d){
@@ -33,6 +43,66 @@ setSelectedVenue(d){
   })
 }
 
+componentDidMount(){
+  this.props.fetchUsers();
+  this.props.fetchVenues();
+}
+
+handleSubmit(){
+  this.toggleModal();
+
+  let obj ={
+      "venue": this.state.selectedVenue._id
+  }
+
+  fetch('/api/update-venue/', {
+  method: 'PUT',
+  headers: {
+      'Content-Type': 'application/json'
+  },        
+  body: JSON.stringify(obj),
+
+}).then((response)  => {
+  console.log('response', response)
+  
+
+  if (response.status == 200){
+      
+      this.createNotification('success');
+      return response.JSON();
+      
+  }
+
+}).catch(err => err);
+}
+
+handleRemove(){
+  this.toggleRemoveVenue();
+
+  let obj ={
+      "venue": this.state.selectedVenue._id
+  }
+
+  fetch('/api/remove-venue/', {
+  method: 'DELETE',
+  headers: {
+      'Content-Type': 'application/json'
+  },        
+  body: JSON.stringify(obj),
+
+}).then((response)  => {
+  console.log('response', response)
+  
+
+  if (response.status == 200){
+      
+      this.createNotification('success');
+      return response.JSON();
+      
+  }
+
+}).catch(err => err);
+}
   
     render(){
         return (
@@ -73,7 +143,9 @@ setSelectedVenue(d){
                           this.toggleModal();
                         }}
                         icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>} label="Edit" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} primary={false} buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} />
-                        <RaisedButton onClick={ ()=> {
+                        <RaisedButton onClick={()=>{ 
+                          this.setSelectedVenue(row.value);
+                          this.toggleRemoveVenue();
                         }} 
 
                         icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>} label="Remove" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} buttonStyle={{backgroundColor:"#cc0000", marginLeft:10}} />
@@ -92,7 +164,7 @@ setSelectedVenue(d){
                     <ModalBody>
                    
                       {this.state.selectedVenue ? (
-                                 <Form method ="put" action ={'/api/update-venue/' + this.state.selectedVenue._id}>
+                                 <Form >
                                     <FormGroup>
                                     <Label for="addressname">Address Name</Label>
                                         <Input type="text" onChange={(e)=>{this.setState({name: e.target.value})}} name="name" id="name" placeholder={ this.state.selectedVenue.name}  required={true}>
@@ -116,7 +188,7 @@ setSelectedVenue(d){
                                     </FormGroup>
                               
                                     <FormGroup>
-                                    <RaisedButton type ="submit"  icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>}   label="Edit"  labelStyle={{fontWeight:"600"}}/>
+                                    <RaisedButton onClick={ () => this.handleSubmit() }  icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>}   label="Edit"  labelStyle={{fontWeight:"600"}}/>
                                     </FormGroup>
                                  </Form>
                                
@@ -126,12 +198,28 @@ setSelectedVenue(d){
                     </ModalBody>
                     <ModalFooter></ModalFooter>
               </Modal>
-
+              
+                    <Modal  isOpen={this.state.RemoveVenue} toggle={this.toggleRemoveVenue}  backdrop={true}>
+                        <ModalHeader icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}>Remove </ModalHeader>
+                        <ModalBody>
+                          <p>Are you sure you want to remove this Venue?</p>
+                          <FormGroup>
+                              <RaisedButton icon={<FontIcon style={{fontSize:11}} onClick={ () => this.handleRemove() } className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
+                          </FormGroup>
+                        </ModalBody>
+                        <ModalFooter></ModalFooter>
+                    </Modal>
 
           </div>
         )
     }
 }
 
-
-export default VenueTable;
+function mapStateToProps({users, venues}){
+  return {
+      users,
+      venues,
+      
+  }
+}
+export default connect(mapStateToProps,actions)(VenueTable);
