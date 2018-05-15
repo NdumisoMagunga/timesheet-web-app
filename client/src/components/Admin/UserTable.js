@@ -6,6 +6,9 @@ import {Form, FormGroup,Input,Modal,ModalBody,ModalHeader,ModalFooter, Fade, Lab
 
 import { red50, red900, white } from 'material-ui/styles/colors';
 import index from 'react-resize-detector';
+import * as moment from 'moment';
+import * as actions from '../../actions';
+import {connect} from 'react-redux'
 
 class UserTable extends Component{
     constructor(props) {
@@ -22,6 +25,10 @@ class UserTable extends Component{
         this.toggleModal = this.toggleModal.bind(this);
         this.setSelectedUser = this.setSelectedUser.bind(this);
       }
+
+    //   componentDidMount(){
+    //     this.props.myTimesheets(this.props.selectedUser._id);
+    // }
     
     toggleModal(){
         this.setState({
@@ -33,7 +40,8 @@ class UserTable extends Component{
     setSelectedUser(d){
       
       this.setState({
-        selectedUser:d
+        selectedUser:d,
+        
       }),()=>(console.log("users",d))
       
     }
@@ -113,8 +121,8 @@ class UserTable extends Component{
          
             {this.state.selectedUser ? (
                        <div>
-                           { this.state.selectedUser.firstname}  { this.state.selectedUser.lastname}<br/>
-                           { this.state.selectedUser.email}<br/>
+                           <h4>{ this.state.selectedUser.firstname}  { this.state.selectedUser.lastname}</h4>
+                           <h6>{ this.state.selectedUser.email}</h6><br/>
                           
                            {
                             (()=>{
@@ -123,7 +131,7 @@ class UserTable extends Component{
                                 this.state.selectedUser.venues.map((venue,index)=>{
                                 {
                                     return(
-                                        <p key={index}>{venue.name}</p>
+                                        <li key={index}>{venue.name}</li>
                                 )
 
                                     }})
@@ -131,7 +139,7 @@ class UserTable extends Component{
                                 }
                                 })()
                             }
-                            
+                           
 
                        </div>
                      
@@ -145,6 +153,12 @@ class UserTable extends Component{
         )
     }
 }
+function mapStateToProps({auth, mysheets}){
+    return {
+        auth,
+        mysheets
+    }
+}
 
 
-export default UserTable;
+export default connect(mapStateToProps,actions)(UserTable);
