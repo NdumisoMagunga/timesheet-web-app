@@ -17,6 +17,7 @@ import "react-table/react-table.css";
             inActive: false,
             isReviewOpen:false,
             fadeOut: true,
+            isAssigned: false,
             data:{timeIn:'',timeOut:'',date:'', venue:{name:''}},
             outActive: false,
             isOpen :false,
@@ -33,6 +34,7 @@ import "react-table/react-table.css";
         this.handleSubmit = this.handleSubmit.bind(this);
         this.reviewToggle = this.reviewToggle.bind(this);
         this.setData = this.setData.bind(this);
+        this.toggleAssigned = this.toggleAssigned.bind(this);
     }
 
     componentDidMount(){
@@ -54,6 +56,12 @@ import "react-table/react-table.css";
     toggleModal(){
         this.setState({
             isOpen: !this.state.isOpen
+        })
+    }
+
+    toggleAssigned(){
+        this.setState({
+            isAssigned: !this.state.isAssigned,
         })
     }
 
@@ -89,6 +97,7 @@ handleSubmit()
     console.log(this.state);
     this.props.CheckIn(this.state);
     this.toggleModal();
+    this.toggleAssigned();
     this.props.myTimesheets(this.props.auth._id);
 
 }
@@ -252,6 +261,7 @@ calcDuration({date,timeIn,timeOut}){
                         
                         {this.props.auth.venues.map((venue,index)=>(
                             <option key={index} value={venue._id}>{venue.name} </option>
+                            
                         )
 
                     )}
@@ -259,8 +269,18 @@ calcDuration({date,timeIn,timeOut}){
                     </FormGroup>
                
                     <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-clock-o"/>} onClick={this.handleSubmit} label="Start Tracking"  labelStyle={{fontWeight:"600"}}/>
+                    {(()=>{
+                        switch(this.state.venue){
+                        case null: return <h4 style={{color: 'red'}}> You need to be assigned a venue in order to start a new session</h4>;
+                        default: 
+                        return (
+                            <RaisedButton icon={<FontIcon className="fa fa-clock-o"/>} onClick={this.handleSubmit} label="Start Tracking"  labelStyle={{fontWeight:"600"}}/>
+                        )
+
+                        }
+                    })()}       
                     </FormGroup>
+                    
              </Form>
                     
                     </ModalBody>
