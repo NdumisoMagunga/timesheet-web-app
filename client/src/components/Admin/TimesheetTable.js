@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import ReactTable from "react-table";
 import {FontIcon, RaisedButton} from 'material-ui';
 import * as moment from 'moment';
+import Print from '../printScreen'
+
 class TimesheetTable extends Component{
 
     calcDuration({date,timeIn,timeOut}){
@@ -17,6 +19,7 @@ class TimesheetTable extends Component{
 
         
         return (
+          <div>
             <ReactTable 
                         style={{margin:20}}
 
@@ -61,6 +64,8 @@ class TimesheetTable extends Component{
                         defaultPageSize={5}
                         className="-highlight"
                       />
+                          <Print />
+                      </div>
         )
     }
     

@@ -16,7 +16,7 @@ import UserTable from '../components/Admin/UserTable';
 import TimesheetTable from '../components/Admin/TimesheetTable';
 import ReviewableSessions from '../components/Admin/ReviewableSessions';
 import AddVenue from '../components/addVenueModal';
-
+import TestPrint from '../components/printScreen'
                                
 
 
@@ -88,8 +88,6 @@ class AdminCentral extends Component {
         }
         
 
-        
-
 
     constructor(props) {
         super(props);
@@ -158,16 +156,18 @@ render(){
            }  
            
            showInkBar={true}/>
-         
+        
            <Row>
-            <Col >
+            <Col sm="6">
           <AddVenue />
           </Col>
 
-           <Col >
+           <Col sm="4">
            <AssignVenue />
            </Col>
            </Row>
+
+           <TestPrint />
            </Container>
            
             
