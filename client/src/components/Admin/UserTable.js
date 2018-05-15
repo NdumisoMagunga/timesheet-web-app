@@ -17,6 +17,7 @@ class UserTable extends Component{
         
         this.state = {
           isOpen: false,
+          RemoveUser:false,
           selectedUser:'',
 
     
@@ -24,6 +25,7 @@ class UserTable extends Component{
     
         this.toggleModal = this.toggleModal.bind(this);
         this.setSelectedUser = this.setSelectedUser.bind(this);
+        this.toggleRemoveUser = this.toggleRemoveUser.bind(this);
       }
 
     //   componentDidMount(){
@@ -33,6 +35,12 @@ class UserTable extends Component{
     toggleModal(){
         this.setState({
             isOpen: !this.state.isOpen,
+            
+        })
+    }
+    toggleRemoveUser(){
+        this.setState({
+            RemoveUser: !this.state.RemoveUser,
             
         })
     }
@@ -102,7 +110,9 @@ class UserTable extends Component{
                           this.toggleModal();
                         }} 
                         icon={<FontIcon style={{fontSize:11}} className="fa fa-paste"/>} label="Datails" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} primary={false} buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} />
-                        <RaisedButton onClick={ ()=> {
+                        < RaisedButton onClick={()=>{ 
+                          this.setSelectedUser(row.value);
+                          this.toggleRemoveUser();
                         }} 
                         icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>} label="Remove" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} buttonStyle={{backgroundColor:"#cc0000", marginLeft:10}} />
                         </div>
@@ -148,6 +158,17 @@ class UserTable extends Component{
     
           </ModalBody>
           <ModalFooter></ModalFooter>
+        </Modal>
+
+        <Modal  isOpen={this.state.RemoveUser} toggle={this.toggleRemoveUser}  backdrop={true}>
+            <ModalHeader icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}>Remove </ModalHeader>
+                <ModalBody>
+                    <p>Are you sure you want to remove this User?</p>
+                    <FormGroup>
+                        <RaisedButton   icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
+                    </FormGroup>
+                 </ModalBody>
+            <ModalFooter></ModalFooter>
         </Modal>
     </div>
         )

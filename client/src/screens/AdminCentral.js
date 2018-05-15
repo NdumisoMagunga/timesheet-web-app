@@ -142,7 +142,16 @@ render(){
             </Jumbotron>
 
            <Container>
-
+               
+           <Row>
+               <Col>
+                    <AddVenue />
+               </Col>
+               <Col>
+                    <AssignVenue />
+               </Col>
+            </Row>
+            
            <Tabs items={
              this.tabsObject.map((tab,index) => ({
                 key: index, // Optional. Equals to tab index if this property is omitted
@@ -155,14 +164,6 @@ render(){
            
            showInkBar={true}/>
 
-           <Row>
-               <Col>
-                    <AddVenue />
-               </Col>
-               <Col>
-                    <AssignVenue />
-               </Col>
-            </Row>
 
             </Container>
 
