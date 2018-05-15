@@ -55,7 +55,7 @@ handleSubmit(){
       "venue": this.state.selectedVenue._id
   }
 
-  fetch('/api/update-venue/', {
+  fetch('http://localhost:80/api/update-venue/', {
   method: 'PUT',
   headers: {
       'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ handleSubmit(){
   body: JSON.stringify(obj),
 
 }).then((response)  => {
-  console.log('response', response)
+  console.log('response', obj)
   
 
   if (response.status == 200){
@@ -83,7 +83,7 @@ handleRemove(){
       "venue": this.state.selectedVenue._id
   }
 
-  fetch('/api/remove-venue/', {
+  fetch('http://localhost:80/api/remove-venue/', {
   method: 'DELETE',
   headers: {
       'Content-Type': 'application/json'
