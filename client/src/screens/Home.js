@@ -63,9 +63,6 @@ render(){
 
         </Row>
         </Container>
-
-        
-        
         </div>
     )
 }
