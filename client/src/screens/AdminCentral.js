@@ -141,17 +141,7 @@ render(){
 
            <Container>
                
-           <Row>
-               <Col>
-                    <AddVenue />
-               </Col>
-               <Col>
-                    <AssignVenue />
-               </Col>
-               <Col>
-               <TestPrint />
-               </Col>
-            </Row>
+          
             
            <Tabs items={
              this.tabsObject.map((tab,index) => ({
@@ -165,7 +155,17 @@ render(){
            
            showInkBar={true}/>
 
-           
+            <Row>
+               <Col>
+                    <AddVenue />
+               </Col>
+               <Col>
+                    <AssignVenue />
+               </Col>
+               <Col>
+               <TestPrint />
+               </Col>
+            </Row>
             </Container>
 
         </div>
