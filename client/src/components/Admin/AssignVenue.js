@@ -13,9 +13,31 @@ import {
 import {FontIcon, RaisedButton} from 'material-ui';
 import * as actions from '../../actions';
 import {connect} from 'react-redux';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
-class AssignVenue extends Component{
+class AssignVenue extends Component {
+
+    createNotification = (type) => {
+        return () => {
+        switch (type) {
+            case 'info':
+            NotificationManager.info('Info message');
+            break;
+            case 'success':
+            NotificationManager.success('Success message', 'Title here');
+            break;
+            case 'warning':
+            NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+            break;
+            case 'error':
+            NotificationManager.error('Error message', 'Click me!', 5000, () => {
+                alert('callback');
+            });
+            break;
+        }
+        };
+    };
 
     constructor(props){
         super(props);
@@ -36,11 +58,14 @@ class AssignVenue extends Component{
     }
 
     handleSubmit(){
+        this.toggleModal();
+
         let obj ={
             "venue": this.state.venue,
             "user": this.state.user,
         }
-        fetch('http://localhost:2000/api/assign-user', {
+
+        fetch('/api/assign-user', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -53,7 +78,7 @@ class AssignVenue extends Component{
 
         if (response.status == 200){
             
-            // notify.show("Successfully assigned a user!", "success", 5000);
+            this.createNotification('success');
             return response.JSON();
             
         }
@@ -118,10 +143,13 @@ class AssignVenue extends Component{
 
 
             </Modal>
+
+
             </div>
         );
     }
 }
+
 function mapStateToProps({users, venues}){
     return {
         users,

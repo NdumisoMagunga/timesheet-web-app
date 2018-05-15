@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import ReactTable from "react-table";
 import {FontIcon, RaisedButton} from 'material-ui';
 import * as moment from 'moment';
-import Print from '../printScreen'
+
 
 class TimesheetTable extends Component{
 
@@ -32,7 +32,7 @@ class TimesheetTable extends Component{
                                 {
                                     Header: "User(s)",
                                     id:"users",
-                                    accessor: d => d.user. firstname +' '+ d.user.lastname
+                                    accessor: d => d.user.firstname +' '+ d.user.lastname
                                   },
                               {
                                 Header: "Date",
@@ -64,7 +64,7 @@ class TimesheetTable extends Component{
                         defaultPageSize={5}
                         className="-highlight"
                       />
-                          <Print />
+                         
                       </div>
         )
     }
