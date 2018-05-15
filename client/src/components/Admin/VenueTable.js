@@ -39,8 +39,8 @@ handleSubmit(){
   let obj ={
       "venue": this.state.venue
   }
-//method ="put" action ={'/api/update-venue/' + this.state.selectedVenue._id}
-  fetch('http://localhost:2000/api/update-venue/', {
+
+  fetch('/api/update-venue/', {
   method: 'PUT',
   headers: {
       'Content-Type': 'application/json'
