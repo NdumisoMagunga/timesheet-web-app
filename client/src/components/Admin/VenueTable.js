@@ -33,6 +33,34 @@ setSelectedVenue(d){
   })
 }
 
+handleSubmit(){
+  this.toggleModal();
+
+  let obj ={
+      "venue": this.state.venue
+  }
+//method ="put" action ={'/api/update-venue/' + this.state.selectedVenue._id}
+  fetch('http://localhost:2000/api/update-venue/', {
+  method: 'PUT',
+  headers: {
+      'Content-Type': 'application/json'
+  },        
+  body: JSON.stringify(obj),
+
+}).then((response)  => {
+  console.log('response', response)
+  
+
+  if (response.status == 200){
+      
+      this.createNotification('success');
+      return response.JSON();
+      
+  }
+
+}).catch(err => err);
+}
+
   
     render(){
         return (
@@ -92,7 +120,7 @@ setSelectedVenue(d){
                     <ModalBody>
                    
                       {this.state.selectedVenue ? (
-                                 <Form method ="put" action ={'/api/update-venue/' + this.state.selectedVenue._id}>
+                                 <Form >
                                     <FormGroup>
                                     <Label for="addressname">Address Name</Label>
                                         <Input type="text" onChange={(e)=>{this.setState({name: e.target.value})}} name="name" id="name" placeholder={ this.state.selectedVenue.name}  required={true}>
@@ -116,7 +144,7 @@ setSelectedVenue(d){
                                     </FormGroup>
                               
                                     <FormGroup>
-                                    <RaisedButton type ="submit"  icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>}   label="Edit"  labelStyle={{fontWeight:"600"}}/>
+                                    <RaisedButton onClick={ () => this.handleSubmit() }  icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>}   label="Edit"  labelStyle={{fontWeight:"600"}}/>
                                     </FormGroup>
                                  </Form>
                                
