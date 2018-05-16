@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {FontIcon, RaisedButton} from 'material-ui';
 import ReactTable from "react-table";
-import {Form, FormGroup,Input,Modal,ModalBody,ModalHeader,ModalFooter, Fade, Label, FormText 
+import {Form, FormGroup,Input,Modal,ModalBody,ModalHeader,ModalFooter,Table, Fade, Label, FormText 
 } from 'reactstrap';
 
 import { red50, red900, white } from 'material-ui/styles/colors';
@@ -28,9 +28,7 @@ class UserTable extends Component{
         this.toggleRemoveUser = this.toggleRemoveUser.bind(this);
       }
 
-    //   componentDidMount(){
-    //     this.props.myTimesheets(this.props.selectedUser._id);
-    // }
+   
     
     toggleModal(){
         this.setState({
@@ -53,8 +51,9 @@ class UserTable extends Component{
       }),()=>(console.log("users",d))
       
     }
-
-  
+    // componentDidMount(){
+    //     this.props.myTimesheets(this.props.selectedUser._id);
+    // }
     render(){
         console.log("users",this.state.selectedUser)
         return (
@@ -125,31 +124,44 @@ class UserTable extends Component{
             className="-highlight"
           />
         
-          <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
+          <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true} size ="lg">
           <ModalHeader>Datails </ModalHeader>
           <ModalBody>
          
             {this.state.selectedUser ? (
                        <div>
-                           <h4>Name : { this.state.selectedUser.firstname}  { this.state.selectedUser.lastname}</h4>
-                           <h6>Email : { this.state.selectedUser.email}</h6><br/>
-                           <h4>Venue(s)</h4>
-                           {
-                            (()=>{
-                                if(this.state.selectedUser.venues.length > 0){
-                                return(
-                                this.state.selectedUser.venues.map((venue,index)=>{
-                                {
-                                    return(
-                                        <li key={index}>{venue.name}</li>
-                                )
+                           <Table>
+                               <thead>
+                                   <tr>
+                                       <td>First Name</td>
+                                       <td>Last Name</td>
+                                       <td>Email </td>
+                                       <td>Venue(s)</td>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                    <tr>
+                                       <td>{ this.state.selectedUser.firstname}</td>
+                                       <td>{ this.state.selectedUser.lastname}</td>
+                                       <td>{ this.state.selectedUser.email}</td>
+                                       {
+                                        (()=>{
+                                            if(this.state.selectedUser.venues.length > 0){
+                                            return(
+                                            this.state.selectedUser.venues.map((venue,index)=>{
+                                            {
+                                                return(
+                                                    <td key={index}>{venue.name}</td>
+                                            )
 
-                                    }})
-                                )
-                                }
-                                })()
-                            }
-                           
+                                                }})
+                                            )
+                                            }
+                                            })()
+                                        }
+                                   </tr>
+                               </tbody>
+                           </Table>
 
                        </div>
                      
@@ -174,10 +186,11 @@ class UserTable extends Component{
         )
     }
 }
-function mapStateToProps({auth, mysheets}){
+function mapStateToProps({auth,timesheets, mysheets}){
     return {
         auth,
-        mysheets
+        mysheets,
+        timesheets
     }
 }
 
