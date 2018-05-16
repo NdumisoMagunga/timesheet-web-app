@@ -28,9 +28,7 @@ class UserTable extends Component{
         this.toggleRemoveUser = this.toggleRemoveUser.bind(this);
       }
 
-    //   componentDidMount(){
-    //     this.props.myTimesheets(this.props.selectedUser._id);
-    // }
+   
     
     toggleModal(){
         this.setState({
@@ -53,8 +51,9 @@ class UserTable extends Component{
       }),()=>(console.log("users",d))
       
     }
-
-  
+    // componentDidMount(){
+    //     this.props.myTimesheets(this.props.selectedUser._id);
+    // }
     render(){
         console.log("users",this.state.selectedUser)
         return (
@@ -164,9 +163,6 @@ class UserTable extends Component{
                                </tbody>
                            </Table>
 
-                          
-                           
-
                        </div>
                      
 
@@ -190,10 +186,11 @@ class UserTable extends Component{
         )
     }
 }
-function mapStateToProps({auth, mysheets}){
+function mapStateToProps({auth,timesheets, mysheets}){
     return {
         auth,
-        mysheets
+        mysheets,
+        timesheets
     }
 }
 
