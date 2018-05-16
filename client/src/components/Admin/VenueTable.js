@@ -96,7 +96,6 @@ handleRemove(){
 
   if (response.status == 200){
       
-      this.createNotification('success');
       return response.JSON();
       
   }

@@ -4,7 +4,6 @@ import * as actions from '../actions'
 import {connect} from 'react-redux';
 import * as moment from 'moment';
 import TimeSheet from './Admin/TimesheetTable'
-import index from 'react-notifications';
 import {FontIcon, RaisedButton} from 'material-ui';
 
  class TestPrint extends Component{

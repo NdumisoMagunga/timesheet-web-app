@@ -14,7 +14,6 @@ import {FontIcon, RaisedButton} from 'material-ui';
 import * as actions from '../../actions';
 import {connect} from 'react-redux';
 
-
 class AssignVenue extends Component {
 
     constructor(props){
@@ -50,17 +49,11 @@ class AssignVenue extends Component {
         },        
         body: JSON.stringify(obj),
 
-    }).then((response)  => {
-        console.log('response', response)
-        
-
-        if (response.status == 200){
-            
-            
-            return response.JSON();
-            
+    }).then((response)  => {   
+        if (response.status == 200){ 
+             
+            return response.JSON();  
         }
-
     }).catch(err => err);
     }
 
