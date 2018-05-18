@@ -13,6 +13,7 @@ import {
 import {FontIcon, RaisedButton} from 'material-ui';
 import * as actions from '../../actions';
 import {connect} from 'react-redux';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 class AssignVenue extends Component {
 
@@ -23,6 +24,29 @@ class AssignVenue extends Component {
         }
         this.toggleModal = this.toggleModal.bind(this);
     }
+
+    createNotification = (type) => {
+        return () => {
+          switch (type) {
+            case 'info':
+              NotificationManager.info('Info message');
+              break;
+            case 'success':
+              NotificationManager.success('Success message', 'Title here');
+              break;
+            case 'warning':
+              NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+              break;
+            case 'error':
+              NotificationManager.error('Error message', 'Click me!', 5000, () => {
+                alert('callback');
+              });
+              break;
+          }
+        };
+      };
+
+
     componentDidMount(){
         this.props.fetchUsers();
         this.props.fetchVenues();
@@ -35,8 +59,7 @@ class AssignVenue extends Component {
     }
 
     handleSubmit(){
-
-        this.toggleModal();
+        this.createNotification('success');
         let obj ={
             "venue": this.state.venue,
             "user": this.state.user,
@@ -50,10 +73,15 @@ class AssignVenue extends Component {
         body: JSON.stringify(obj),
 
     }).then((response)  => {   
+
         if (response.status == 200){ 
-             
+            this.toggleModal();
+            this.createNotification('success');
             return response.JSON();  
+        } else {
+            this.createNotification('warning');
         }
+        
     }).catch(err => err);
     }
 
@@ -102,21 +130,24 @@ class AssignVenue extends Component {
                     </Input>
                 </FormGroup>
     
-                <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={ () => this.handleSubmit() } label="Assign"  labelStyle={{fontWeight:"600"}}/>
-                </FormGroup>
-                
                 </Form>
-    
                 </ModalBody>
                 <ModalFooter></ModalFooter>
 
                 </div>
+                <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={ () => this.handleSubmit() } label="Assign"  labelStyle={{fontWeight:"600"}}/>
+
+                    <button className='btn btn-success'
+                    onClick={this.createNotification('success')}>Success
+                    </button>
+                    <hr/>
 
 
             </Modal>
 
 
+            
+                <NotificationContainer/>
             </div>
         );
     }

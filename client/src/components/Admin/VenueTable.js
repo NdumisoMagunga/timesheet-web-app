@@ -48,60 +48,52 @@ componentDidMount(){
   this.props.fetchVenues();
 }
 
-handleSubmit(){
-  this.toggleModal();
+    handleSubmit(){
+      this.toggleModal();
+      console.log("edit venue")
 
-  let obj ={
-      "venue": this.state.selectedVenue._id
-  }
+      let obj ={
+          "venue": this.state.selectedVenue._id
+      }
+      console.log(obj)
 
-  fetch('http://localhost:80/api/update-venue/', {
-  method: 'PUT',
-  headers: {
-      'Content-Type': 'application/json'
-  },        
-  body: JSON.stringify(obj),
+      fetch('/api/update-venue/' + obj, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      },        
+      body: JSON.stringify(obj),
 
-}).then((response)  => {
-  console.log('response', obj)
-  
+    }).then((response)  => {
+      console.log('response', obj)
+    
+      if (response.status == 200){
+          
+          return response.JSON();
+      }
 
-  if (response.status == 200){
-      
-      this.createNotification('success');
-      return response.JSON();
-      
-  }
+    }).catch(err => err);
+    }
 
-}).catch(err => err);
-}
+    handleRemove(){
+        this.toggleRemoveVenue();
+        console.log('it works');
+        let obj={
+          "venue":this.state.selectedVenue._id
+        }
+        console.log(obj)
 
-handleRemove(){
-  this.toggleRemoveVenue();
+        fetch('http://localhost:80/api/remove-venue/' + obj, {
+        method: 'DELETE',       
 
-  let obj ={
-      "venue": this.state.selectedVenue._id
-  }
+    }).then((response)  => {
 
-  fetch('http://localhost:80/api/remove-venue/', {
-  method: 'DELETE',
-  headers: {
-      'Content-Type': 'application/json'
-  },        
-  body: JSON.stringify(obj),
+        if (response.status == 200){      
+            return response.JSON(); 
+        }
 
-}).then((response)  => {
-  console.log('response', response)
-  
-
-  if (response.status == 200){
-      
-      return response.JSON();
-      
-  }
-
-}).catch(err => err);
-}
+      }).catch(err => err);
+    }
   
     render(){
         return (
