@@ -13,13 +13,11 @@ import {connect} from 'react-redux'
 class UserTable extends Component{
     constructor(props) {
         super(props);
-    
         
         this.state = {
           isOpen: false,
           RemoveUser:false,
           selectedUser:'',
-
     
         };
     
@@ -28,8 +26,10 @@ class UserTable extends Component{
         this.toggleRemoveUser = this.toggleRemoveUser.bind(this);
       }
 
-   
-    
+    componentDidUpdate(){
+        this.props.myTimesheets(this.state.selectedUser._id);
+    }
+
     toggleModal(){
         this.setState({
             isOpen: !this.state.isOpen,
@@ -44,18 +44,13 @@ class UserTable extends Component{
     }
     
     setSelectedUser(d){
-      
       this.setState({
         selectedUser:d,
-        
-      }),()=>(console.log("users",d))
-      
+      })
     }
-    // componentDidMount(){
-    //     this.props.myTimesheets(this.props.selectedUser._id);
-    // }
+
     render(){
-        console.log("users",this.state.selectedUser)
+        console.log("user details",this.state.selectedUser)
         return (
             <div>
                 
@@ -125,7 +120,7 @@ class UserTable extends Component{
           />
         
           <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true} size ="lg">
-          <ModalHeader>Datails </ModalHeader>
+          <ModalHeader>Details </ModalHeader>
           <ModalBody>
          
             {this.state.selectedUser ? (
@@ -135,7 +130,7 @@ class UserTable extends Component{
                                    <tr>
                                        <td>First Name</td>
                                        <td>Last Name</td>
-                                       <td>Email </td>
+                                       <td>Email</td>
                                        <td>Venue(s)</td>
                                    </tr>
                                </thead>
@@ -159,8 +154,37 @@ class UserTable extends Component{
                                             }
                                             })()
                                         }
+                                        {this.props.mysheets.map((data, index) => {
+                                            <td>{data.venue.name}   {data.timeIn}   {data.timeOut}  {data.date}</td>
+                                        })}
+
                                    </tr>
                                </tbody>
+                           </Table>
+                           <Table>
+                                <thead>
+                                    <tr>
+                                        <td>Venue</td>
+                                        <td>Time In</td>
+                                        <td>Time Out</td>
+                                        <td>Date</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                        {this.props.mysheets.map((data, index) => {
+                                            return(
+                                                <tr key={index}>
+                                                    <td>{data.venue.name}</td>
+                                                    <td>{data.timeIn}</td>
+                                                    <td>{data.timeOut}</td>
+                                                    <td>{data.date}</td>
+                                                </tr>
+                                            )
+                                        })}
+
+                                </tbody>
                            </Table>
 
                        </div>
@@ -190,7 +214,9 @@ function mapStateToProps({auth,timesheets, mysheets}){
     return {
         auth,
         mysheets,
-        timesheets
+        timesheets,
+        
+        
     }
 }
 
