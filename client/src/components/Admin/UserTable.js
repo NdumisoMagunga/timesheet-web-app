@@ -24,7 +24,25 @@ class UserTable extends Component{
         this.toggleModal = this.toggleModal.bind(this);
         this.setSelectedUser = this.setSelectedUser.bind(this);
         this.toggleRemoveUser = this.toggleRemoveUser.bind(this);
+        this.handleRemoveUser = this.handleRemoveUser.bind(this)
       }
+
+      handleRemoveUser(){
+        this.toggleRemoveUser()
+        let obj={
+            "user":this.state.selectedUser._id
+          }
+    
+          fetch('http://localhost:80/api/delete-user/' + obj.user, {
+          method: 'POST',       
+  
+      }).then((response)  =>  response.json())
+      .then(result => this.props.fetchUsers())
+      .catch(err => err);
+      }
+
+
+      
 
     componentDidUpdate(){
         this.props.myTimesheets(this.state.selectedUser._id);
@@ -115,7 +133,7 @@ class UserTable extends Component{
                 ]
               }
             ]}
-            defaultPageSize={5}
+            defaultPageSize={15}
             className="-highlight"
           />
         
@@ -201,7 +219,7 @@ class UserTable extends Component{
                 <ModalBody>
                     <p>Are you sure you want to remove this User?</p>
                     <FormGroup>
-                        <RaisedButton   icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
+                        <RaisedButton   icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}} onClick ={this.handleRemoveUser}/>
                     </FormGroup>
                  </ModalBody>
             <ModalFooter></ModalFooter>

@@ -80,6 +80,18 @@ router.get('/users', (req,res,next)=>{
 })
 
 
+router.post('/delete-user/:id', (req,res,next)=>{
+User.findByIdAndRemove(req.params.id, (err, user)=>{
+    if (err) return next(err);
+    if (user){
+        res.json({message: "user has been removed"});
+    }else{
+        res.json({message: "user does not exist"});
+    }
+    
+})
+});
+
 router.put('/edit-profile',(req,res,next) =>{
     User.findById(req.user.id).exec((err,user)=>{
 
