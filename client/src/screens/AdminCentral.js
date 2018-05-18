@@ -163,7 +163,7 @@ render(){
                     <AssignVenue />
                </Col>
                <Col>
-               <TestPrint />
+                    <TestPrint />
                </Col>
             </Row>
             </Container>

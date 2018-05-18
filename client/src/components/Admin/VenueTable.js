@@ -48,63 +48,52 @@ componentDidMount(){
   this.props.fetchVenues();
 }
 
-handleSubmit() {
-  
-  this.toggleModal();
+    handleSubmit(){
+      this.toggleModal();
+      console.log("edit venue")
 
-  let obj = {
-    "name":this.state.name,
-    "address":this.state.address,
-    "location": this.state.location,
-    "altitude": this.state.altitude
-  }
-
-  fetch('http://localhost:80/api/update-venue/' + this.state.selectedVenue._id, {
-  method: 'POST',
-  headers: {
-    'Accept':'application/json',
-    'Content-Type': 'application/json'
-  },        
-  body: JSON.stringify(obj),
-
-}).then((response)  => {
-  console.log('response', response)
-
-        return response.JSON();
-      
-    })
-    .then(result => {
-      if (!result.response){
-        this.props.fetchVenues()
+      let obj ={
+          "venue": this.state.selectedVenue._id
       }
-    })
-    .catch(err => err);
-}
+      console.log(obj)
 
-handleRemove(){
-  this.toggleRemove();
+      fetch('/api/update-venue/' + obj, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      },        
+      body: JSON.stringify(obj),
 
-  let obj ={
-    "venue": this.state.selectedVenue._id
-  }
+    }).then((response)  => {
+      console.log('response', obj)
+    
+      if (response.status == 200){
+          
+          return response.JSON();
+      }
 
-  fetch('http://localhost:80/api/remove-venue/' + this.state.selectedVenue._id, {
-  method: 'DELETE',
-  headers: {
-      'Content-Type': 'application/json'
-  },        
-  body: JSON.stringify(obj),
-
-}).then((response)  => {
-  console.log('response', response)
-  
-
-    if (response.status == 200){ 
-        return response.JSON();  
+    }).catch(err => err);
     }
 
-  }).catch(err => err);
-}
+    handleRemove(){
+        this.toggleRemoveVenue();
+        console.log('it works');
+        let obj={
+          "venue":this.state.selectedVenue._id
+        }
+        console.log(obj)
+
+        fetch('http://localhost:80/api/remove-venue/' + obj, {
+        method: 'DELETE',       
+
+    }).then((response)  => {
+
+        if (response.status == 200){      
+            return response.JSON(); 
+        }
+
+      }).catch(err => err);
+    }
   
     render(){
         return (
@@ -223,6 +212,8 @@ handleRemove(){
                       </ModalBody>
                   <ModalFooter></ModalFooter>
               </Modal>
+              
+         
 
           </div>
         )

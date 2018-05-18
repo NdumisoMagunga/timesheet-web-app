@@ -23,20 +23,9 @@ class AssignVenue extends Component {
         }
         this.toggleModal = this.toggleModal.bind(this);
     }
-    componentDidMount(){
-        this.props.fetchUsers();
-        this.props.fetchVenues();
-    }
 
-    toggleModal(){
-        this.setState({
-            isOpen: !this.state.isOpen
-        })
-    }
 
-    handleSubmit(){
-
-        this.toggleModal();
+    handleAssign(){
         let obj ={
             "venue": this.state.venue,
             "user": this.state.user,
@@ -50,10 +39,48 @@ class AssignVenue extends Component {
         body: JSON.stringify(obj),
 
     }).then((response)  => {   
+
         if (response.status == 200){ 
-             
+            this.toggleModal();
+            return response.JSON();  
+        } 
+        
+    }).catch(err => err);
+    }
+
+    componentDidMount(){
+        this.props.fetchUsers();
+        this.props.fetchVenues();
+    }
+
+    toggleModal(){
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    }
+
+
+    handleUnassign(){
+
+        let obj ={
+            "user": this.state.user,
+        }
+
+        fetch('/api/remove-user/'+ this.state.venue, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(obj),
+
+    }).then((response)  => {   
+        console.log('submitted');
+        if (response.status == 200){ 
+            this.toggleModal();
+            console.log('done');
             return response.JSON();  
         }
+        
     }).catch(err => err);
     }
 
@@ -101,18 +128,22 @@ class AssignVenue extends Component {
                 )}
                     </Input>
                 </FormGroup>
-    
+
                 <FormGroup>
-                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={ () => this.handleSubmit() } label="Assign"  labelStyle={{fontWeight:"600"}}/>
+                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={ () => this.handleAssign() } label="Assign"  labelStyle={{fontWeight:"600"}}/>
                 </FormGroup>
+
+
+                <FormGroup>
+                    <RaisedButton icon={<FontIcon className="fa fa-paste"/>} onClick={ () => this.handleUnassign() } label="Unassign"  labelStyle={{fontWeight:"600"}}/>
+                </FormGroup>
+
                 
                 </Form>
-    
                 </ModalBody>
                 <ModalFooter></ModalFooter>
 
                 </div>
-
 
             </Modal>
 

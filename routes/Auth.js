@@ -79,14 +79,26 @@ router.get('/users', (req,res,next)=>{
     })
 })
 
-// //For Test Purposes
-// router.get('/user', (req,res,next)=>{
-//     User.find({})
-//     .populate()
-//     .exec((err,user)=>{
-//         if (err) return next(err);
-//         res.json(user);
-//     })
-// })
+router.post('/edit-profile', function(req, res, next){
+    User.findById(req.params.id).exec((err, user)=>{
+        
+        if(req.body.firstname)
+            user.firstname = req.body.firstname;
+
+        if(req.body.lastname)
+            user.lastname = req.body.lastname;
+
+        if(req.body.email)
+            user.email = req.body.email;
+
+        user.save(function(err){
+            if(err) return next(err);
+
+            req.json('success', 'Successfully edited your profile');
+            return res.redirect('/profile');
+
+        });
+    });
+});
 
 module.exports = router;
