@@ -195,7 +195,7 @@ componentDidMount(){
                         <ModalBody>
                           <p>Are you sure you want to remove this Venue?</p>
                           <FormGroup>
-                              <RaisedButton icon={<FontIcon style={{fontSize:11}} onClick={ () => this.handleRemove() } className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
+                              <RaisedButton onClick={ () => this.handleRemove() } icon={<FontIcon style={{fontSize:11}}  className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
                           </FormGroup>
                         </ModalBody>
                         <ModalFooter></ModalFooter>
