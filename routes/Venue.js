@@ -87,14 +87,20 @@ router.delete('/remove-venue/:id', (req,res,next)=>{
   })
 });
 
-router.post('/update-venue/:id', (req,res,next)=>{
+router.put('/update-venue/:id', (req,res,next)=>{
   Venue.findById(req.params.id).exec((err, venue)=>{
-      venue.address = req.body.address,
-      venue.location = [parseFloat(req.body.longitude), parseFloat(req.body.latitude)],
-      venue.altitude = req.body.altitude,
-      venue.name = req.body.name
       if(err){return next(err)}
-      res.json({response: "venue updated"})
+
+      venue.address = req.body.address,
+     // venue.location = [parseFloat(req.body.longitude), parseFloat(req.body.latitude)],
+      venue.altitude = req.body.altitude,
+      venue.name = req.body.name;
+
+      venue.save((err, venue)=>{
+        if (err) return next(err);
+        res.json({response: "venue updated"})
+      })
+   
   })
 });
 

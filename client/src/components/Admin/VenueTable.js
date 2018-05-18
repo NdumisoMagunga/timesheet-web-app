@@ -39,7 +39,9 @@ toggleRemove(){
 setSelectedVenue(d){
   
   this.setState({
-    selectedVenue:d
+    selectedVenue:d,
+    name:d.name,
+    address:d.address
   })
 }
 
@@ -50,49 +52,51 @@ componentDidMount(){
 
     handleSubmit(){
       this.toggleModal();
-      console.log("edit venue")
+      
 
       let obj ={
-          "venue": this.state.selectedVenue._id
+          "venue": this.state.selectedVenue._id,
+          "name":this.state.name,
+          "address":this.state.address
       }
-      console.log(obj)
+    
 
-      fetch('/api/update-venue/' + obj, {
+      fetch('/api/update-venue/' + obj.venue, {
       method: 'PUT',
       headers: {
           'Content-Type': 'application/json'
       },        
       body: JSON.stringify(obj),
 
-    }).then((response)  => {
-      console.log('response', obj)
-    
-      if (response.status == 200){
-          
-          return response.JSON();
-      }
+    }).then((response)  => response.json())
+    .then( result =>{
+      
+      this.props.fetchVenues()
+     
+    })
+    .catch(err => err);
 
-    }).catch(err => err);
+
     }
 
+
+
+
+
     handleRemove(){
-        this.toggleRemoveVenue();
-        console.log('it works');
+        this.toggleRemove();
+      
         let obj={
           "venue":this.state.selectedVenue._id
         }
-        console.log(obj)
+   
 
-        fetch('http://localhost:80/api/remove-venue/' + obj, {
+        fetch('http://localhost:80/api/remove-venue/' + obj.venue, {
         method: 'DELETE',       
 
-    }).then((response)  => {
-
-        if (response.status == 200){      
-            return response.JSON(); 
-        }
-
-      }).catch(err => err);
+    }).then((response)  =>  response.json())
+    .then(result => this.props.fetchVenues())
+    .catch(err => err);
     }
   
     render(){
@@ -169,23 +173,23 @@ componentDidMount(){
                                  <Form >
                                     <FormGroup>
                                     <Label for="addressname">Address Name</Label>
-                                        <Input type="text" onChange={(e)=>{this.setState({name: e.target.value})}} name="name" id="name" placeholder={ this.state.selectedVenue.name}  required={true}>
+                                        <Input type="text" onChange={(e)=>{this.setState({name: e.target.value})}} name="name" id="name" defaultValue={ this.state.selectedVenue.name}   required={true}>
                                         </Input>
                                     </FormGroup>
               
                                     <FormGroup>
                                     <Label for="Streetaddress">Street Address</Label>
-                                        <Input type="address" onChange={(e)=>{this.setState({address: e.target.value})}} name="address" id="address" placeholder ={this.state.selectedVenue.address}  required={true}>
+                                        <Input type="address" onChange={(e)=>{this.setState({address: e.target.value})}} name="address" id="address" defaultValue ={this.state.selectedVenue.address}  required={true}>
                                         </Input>
                                     </FormGroup>
                                     <FormGroup>
                                     <Label for="location">Location</Label>
-                                      <Input type="address" onChange={(e)=>{this.setState({location: e.target.value})}} name="location" id="location" placeholder ={this.state.selectedVenue.location} >
+                                      <Input type="address" onChange={(e)=>{this.setState({location: e.target.value})}} name="location" id="location" defaultValue ={this.state.selectedVenue.location} >
                                       </Input>
                                     </FormGroup>
                                     <FormGroup>
                                     <Label for="altitude">Altitude</Label>
-                                      <Input type="text" onChange={(e)=>{this.setState({altitude: e.target.value})}} name="altitude" id="altitude" placeholder ={this.state.selectedVenue.altitude}>
+                                      <Input type="text" onChange={(e)=>{this.setState({altitude: e.target.value})}} name="altitude" id="altitude" defaultValue ={this.state.selectedVenue.altitude}>
                                       </Input>
                                     </FormGroup>
                               
@@ -202,7 +206,7 @@ componentDidMount(){
                     </div>
               </Modal>
   
-              <Modal  Remove={this.state.Remove} toggle={this.toggleRemove}  backdrop={true}>
+              <Modal  isOpen={this.state.Remove} toggle={this.toggleRemove}  backdrop={true}>
                   <ModalHeader >Remove </ModalHeader>
                       <ModalBody>
                         <p>Are you sure you want to remove this Venue?</p>
