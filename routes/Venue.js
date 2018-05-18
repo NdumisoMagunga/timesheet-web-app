@@ -107,6 +107,7 @@ router.get('/venue',(req,res,next)=>{
 });
 
 
+
 router.get('/venue/:id', (req,res,next)=>{
   Venue.findById(req.params.id, (err, venue)=>{
       if(err){return next(err)}
