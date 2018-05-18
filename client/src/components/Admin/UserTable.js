@@ -108,7 +108,7 @@ class UserTable extends Component{
                           this.setSelectedUser(row.value);
                           this.toggleModal();
                         }} 
-                        icon={<FontIcon style={{fontSize:11}} className="fa fa-paste"/>} label="Datails" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} primary={false} buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} />
+                        icon={<FontIcon style={{fontSize:11}} className="fa fa-paste"/>} label="Details" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} primary={false} buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} />
                         < RaisedButton onClick={()=>{ 
                           this.setSelectedUser(row.value);
                           this.toggleRemoveUser();
@@ -125,7 +125,7 @@ class UserTable extends Component{
           />
         
           <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true} size ="lg">
-          <ModalHeader>Datails </ModalHeader>
+          <ModalHeader>Details </ModalHeader>
           <ModalBody>
          
             {this.state.selectedUser ? (
@@ -151,7 +151,7 @@ class UserTable extends Component{
                                             this.state.selectedUser.venues.map((venue,index)=>{
                                             {
                                                 return(
-                                                    <td key={index}>{venue.name}</td>
+                                                    <li key={index}>{venue.name}</li>
                                             )
 
                                                 }})

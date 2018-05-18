@@ -3,6 +3,7 @@ import {Button,Modal,ModalBody,ModalHeader} from 'reactstrap';
 import * as actions from '../actions'
 import {connect} from 'react-redux';
 import * as moment from 'moment';
+import logo from '../assets/images/logo.png'
 import TimeSheet from './Admin/TimesheetTable'
 import {FontIcon, RaisedButton} from 'material-ui';
 
@@ -44,6 +45,8 @@ import {FontIcon, RaisedButton} from 'material-ui';
                return(
                    <div>
                        <table style={{fontFamily:" arial, sans-serif", borderCcollapse: "collapse",  width:" 100%"}}>
+                            <h1><img  style={{width:120,height:35}} className="brand-image"  src={logo}  /> ITTHYNK smart solution </h1>
+                            <h3>Register</h3>
                             <tr>
                                 <th style={{ border: "1px solid #dddddd", textAlign:"left", padding:"8px"}}>Firstname</th>
                                 <th style={{ border: "1px solid #dddddd", textAlign:"left", padding:"8px"}}>Lastname</th>

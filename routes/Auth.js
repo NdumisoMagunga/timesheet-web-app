@@ -24,7 +24,7 @@ router.post('/user/signup',(req,res,next)=>{
                      req.login(savedUser, (err)=>{
                          if (err) return next(err);
 
-                         res.redirect('/profile')
+                         res.redirect('/')
                      })
                  });
              }  

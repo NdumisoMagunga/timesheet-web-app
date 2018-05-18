@@ -14,13 +14,13 @@ class VenueTable extends Component{
     
     this.state = {
       isOpen: false,
-      RemoveVenue:false,
+      Remove:false,
       selectedVenue:false,
 
     };
 
     this.toggleModal = this.toggleModal.bind(this);
-    this.toggleRemoveVenue = this.toggleRemoveVenue.bind(this);
+    this.toggleRemove= this.toggleRemove.bind(this);
   }
 
 toggleModal(){
@@ -29,9 +29,9 @@ toggleModal(){
         
     })
 }
-toggleRemoveVenue(){
+toggleRemove(){
   this.setState({
-    RemoveVenue: !this.state.RemoveVenue,
+    Remove: !this.state.Remove,
       
   })
 }
@@ -48,42 +48,47 @@ componentDidMount(){
   this.props.fetchVenues();
 }
 
-handleSubmit(){
+handleSubmit() {
+  
   this.toggleModal();
 
-  let obj ={
-      "venue": this.state.selectedVenue._id
+  let obj = {
+    "name":this.state.name,
+    "address":this.state.address,
+    "location": this.state.location,
+    "altitude": this.state.altitude
   }
 
-  fetch('http://localhost:80/api/update-venue/', {
-  method: 'PUT',
+  fetch('http://localhost:80/api/update-venue/' + this.state.selectedVenue._id, {
+  method: 'POST',
   headers: {
-      'Content-Type': 'application/json'
+    'Accept':'application/json',
+    'Content-Type': 'application/json'
   },        
   body: JSON.stringify(obj),
 
 }).then((response)  => {
-  console.log('response', obj)
-  
+  console.log('response', response)
 
-  if (response.status == 200){
+        return response.JSON();
       
-      this.createNotification('success');
-      return response.JSON();
-      
-  }
-
-}).catch(err => err);
+    })
+    .then(result => {
+      if (!result.response){
+        this.props.fetchVenues()
+      }
+    })
+    .catch(err => err);
 }
 
 handleRemove(){
-  this.toggleRemoveVenue();
+  this.toggleRemove();
 
   let obj ={
-      "venue": this.state.selectedVenue._id
+    "venue": this.state.selectedVenue._id
   }
 
-  fetch('http://localhost:80/api/remove-venue/', {
+  fetch('http://localhost:80/api/remove-venue/' + this.state.selectedVenue._id, {
   method: 'DELETE',
   headers: {
       'Content-Type': 'application/json'
@@ -94,13 +99,11 @@ handleRemove(){
   console.log('response', response)
   
 
-  if (response.status == 200){
-      
-      return response.JSON();
-      
-  }
+    if (response.status == 200){ 
+        return response.JSON();  
+    }
 
-}).catch(err => err);
+  }).catch(err => err);
 }
   
     render(){
@@ -141,13 +144,23 @@ handleRemove(){
                           this.setSelectedVenue(row.value);
                           this.toggleModal();
                         }}
-                        icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>} label="Edit" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} primary={false} buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} />
+                        icon={<FontIcon style={{fontSize:11}} className="fa fa-pencil"/>} 
+                        label="Edit" style={{fontSize:11}} 
+                        labelStyle={{fontWeight:"600", fontSize:8, color:white}}
+                        primary={false}
+                        buttonStyle={{backgroundColor:"#0000cc", marginLeft:5}} 
+                        />
+                        
                         <RaisedButton onClick={()=>{ 
                           this.setSelectedVenue(row.value);
-                          this.toggleRemoveVenue();
+                          this.toggleRemove();
                         }} 
 
-                        icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>} label="Remove" style={{fontSize:11}} labelStyle={{fontWeight:"600", fontSize:8, color:white}} buttonStyle={{backgroundColor:"#cc0000", marginLeft:10}} />
+                        icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}
+                        label="Remove" style={{fontSize:11}} 
+                        labelStyle={{fontWeight:"600", fontSize:8, color:white}}
+                        buttonStyle={{backgroundColor:"#cc0000", marginLeft:10}} 
+                        />
                         </div>
                       )
                   }
@@ -159,6 +172,7 @@ handleRemove(){
           />
 
               <Modal isOpen={this.state.isOpen} toggle={this.toggleModal} backdrop={true}>
+                  <div>
                     <ModalHeader>EDIT VENUE </ModalHeader>
                     <ModalBody>
                    
@@ -196,18 +210,19 @@ handleRemove(){
               
                     </ModalBody>
                     <ModalFooter></ModalFooter>
+                    </div>
               </Modal>
-              
-                    <Modal  isOpen={this.state.RemoveVenue} toggle={this.toggleRemoveVenue}  backdrop={true}>
-                        <ModalHeader icon={<FontIcon style={{fontSize:11}} className="fa fa-trash"/>}>Remove </ModalHeader>
-                        <ModalBody>
-                          <p>Are you sure you want to remove this Venue?</p>
-                          <FormGroup>
-                              <RaisedButton icon={<FontIcon style={{fontSize:11}} onClick={ () => this.handleRemove() } className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
-                          </FormGroup>
-                        </ModalBody>
-                        <ModalFooter></ModalFooter>
-                    </Modal>
+  
+              <Modal  Remove={this.state.Remove} toggle={this.toggleRemove}  backdrop={true}>
+                  <ModalHeader >Remove </ModalHeader>
+                      <ModalBody>
+                        <p>Are you sure you want to remove this Venue?</p>
+                        <FormGroup>
+                          <RaisedButton onClick={ () => this.handleRemove() } icon={<FontIcon style={{fontSize:11}}  className="fa fa-trash"/>}   label="Yes"  labelStyle={{fontWeight:"600"}}/>
+                        </FormGroup>
+                      </ModalBody>
+                  <ModalFooter></ModalFooter>
+              </Modal>
 
           </div>
         )
