@@ -16,6 +16,7 @@ import { Card,
 import {connect} from 'react-redux';
 import * as actions from '../actions';
 import { Grid, Image } from 'semantic-ui-react';
+import Gravatar from 'react-gravatar';
 
 class Profile extends Component {
 constructor(props){
@@ -54,9 +55,8 @@ render(){
                   
                 <Grid.Column>
                     <h4>Your Profile</h4>
-                        <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" 
-                        style={{ borderTopLeftRadius: 20,borderTopRightRadius: 20,borderBottomLeftRadius: 20,borderBottomRightRadius: 20,overflow: 'hidden',height: 205,width:230}}
-                        />
+                        
+                        <Gravatar top width="100%" email="magunga55@gmail.com" style={{ borderTopLeftRadius: 20,borderTopRightRadius: 20,borderBottomLeftRadius: 20,borderBottomRightRadius: 20,overflow: 'hidden',height: 205,width:230}}/>
                         <CardBody>
                             <CardTitle>{this.props.auth.firstname} {this.props.auth.lastname}</CardTitle>
                             <CardSubtitle>{this.props.auth.email}</CardSubtitle>
